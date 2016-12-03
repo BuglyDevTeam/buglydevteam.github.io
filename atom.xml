@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>Bugly技术团队博客</title>
+  <subtitle>一种愉悦的开发方式</subtitle>
+  <link href="/atom.xml" rel="self"/>
+  
+  <link href="https://devilwwj.github.io/"/>
+  <updated>2016-12-03T08:48:48.000Z</updated>
+  <id>https://devilwwj.github.io/</id>
+  
+  <author>
+    <name>Bugly</name>
+    
+  </author>
+  
+  <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Bugly热更新SDK你需要知道的一些事</title>
+    <link href="https://devilwwj.github.io/2016/11/28/bugly-android-hotfix-you-should-know/"/>
+    <id>https://devilwwj.github.io/2016/11/28/bugly-android-hotfix-you-should-know/</id>
+    <published>2016-11-28T05:19:58.000Z</published>
+    <updated>2016-12-03T08:48:48.000Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="Bugly出热更新SDK了？"><a href="#Bugly出热更新SDK了？" class="headerlink" title="Bugly出热更新SDK了？"></a>Bugly出热更新SDK了？</h2><p>没错，Bugly也出热更新SDK啦，2016.11.25号，我们Bugly也上线了Android版的热更新SDK，大家都知道这一年来<strong>热更新</strong>被无数次提起，各大厂自主研发的热更新方案层出不穷，下面就列举一些大家比较熟悉的一些热更新方案：</p>
+<p>微信开源：<a href="https://github.com/Tencent/tinker" target="_blank" rel="external">Tinker</a><br>大众点评：<a href="https://github.com/jasonross/Nuwa" target="_blank" rel="external">Nuwa</a><br>阿里巴巴：<a href="https://github.com/alibaba/dexposed" target="_blank" rel="external">Dexposed</a><br>阿里巴巴：<a href="https://github.com/alibaba/AndFix" target="_blank" rel="external">AndFix</a><br>美团：<a href="http://tech.meituan.com/android_robust.html" target="_blank" rel="external">Robust</a></p>
+<p>各个方案的优劣性笔者就不在这里做过多讨论了，总的一句话<strong>没有最好的，只有最适合自己的</strong>。</p>
+<p><strong>我们Bugly也是出于高可用性的考虑，Tinker支持动态下发代码、So库以及资源，所以我们最终选择了Tinker方案作为我们SDK的一项能力。</strong></p>
+<p>这里有一点需要说明的，<strong>Android版的热更新SDK是包含在升级SDK里面的</strong>，所以如果你想使用我们提供的热更新能力需要下载对应版本的<a href="https://bugly.qq.com/v2/sdkDownload" target="_blank" rel="external">升级SDK</a>，目前我们在1.2.0版本才开始支持热更新：</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/images/2016-11-28/hotfix-0.png" alt="热更新SDK" title="">
+                </div>
+                <div class="image-caption">热更新SDK</div>
+            </figure>
+<font color="red">注意：升级SDK自1.2.0起将不再支持以jar包形式集成，我们建议您使用Android studio并且以gradle方式集成。</font>
+
+<h2 id="为什么集成我们Bugly热更新SDK？"><a href="#为什么集成我们Bugly热更新SDK？" class="headerlink" title="为什么集成我们Bugly热更新SDK？"></a>为什么集成我们Bugly热更新SDK？</h2><p>热更新能力是Bugly为解决开发者紧急修复线上Bug，而无需重新发版让用户无感知就能把问题修复的一项能力。Bugly目前采用<a href="https://github.com/Tencent/tinker" target="_blank" rel="external">微信Tinker</a>的开源方案，开发者只需要集成我们提供的SDK就可以实现<strong>自动下载补丁包、合成、并且应用补丁的功能</strong>，我们也提供了<strong>热更新管理后台</strong>让开发者对每个版本的补丁进行管理。</p>
+<p>集成我们SDK的好处是显而易见的：</p>
+<ul>
+<li>无需关注Tinker是如何合成补丁的</li>
+<li>无需自己搭建补丁管理后台</li>
+<li>无需考虑后台下发补丁策略的任何事情</li>
+<li>无需考虑补丁下载合成的时机，处理后台下发的策略</li>
+<li>我们提供了更加方便集成Tinker的方式</li>
+<li>我们提供应用升级一站式解决方案</li>
+</ul>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/images/2016-11-28/hotfix-1.png" alt="应用升级" title="">
+                </div>
+                <div class="image-caption">应用升级</div>
+            </figure>
+<h2 id="如何集成Bugly热更新SDK？"><a href="#如何集成Bugly热更新SDK？" class="headerlink" title="如何集成Bugly热更新SDK？"></a>如何集成Bugly热更新SDK？</h2><blockquote>
+<p>看文档、看文档、看文档。重要的事情说三遍。<br><a href="https://bugly.qq.com/docs/user-guide/instruction-manual-android-hotfix/" target="_blank" rel="external">Android热更新接入指南</a></p>
+</blockquote>
+<p>相信接入过Tinker的同学会发现使用Tinker还是有一定门槛的，小白用户第一次使用可能会懵圈，我们Bugly也希望能让第一次接入的同学能顺利使用上热更新，所以建议大家严格按照我们文档的流程来接入，如果遇到任何使用SDK的问题可以及时跟我们反馈（交流群号：130979883），但如果是Tinker插件的使用问题也是建议您认真查看<a href="https://github.com/Tencent/tinker/wiki" target="_blank" rel="external">Tinker Wiki</a>。</p>
+<p>简单概要说一下整个接入流程：</p>
+<ol>
+<li>配置插件依赖（这里包含<strong>tinker插件</strong>和<strong>tinker-support插件</strong>的依赖）</li>
+<li>apply插件（这里可以只配置<code>apply plugin: &#39;com.tencent.bugly.tinker-support&#39;</code>）</li>
+<li><p>集成SDK</p>
+<ul>
+<li>集成远程SDK仓库</li>
+<li>重新自定义Application、ApplicationLike</li>
+<li>AndroidManifest配置</li>
+<li>混淆配置</li>
+</ul>
+</li>
+<li><p>测试验证</p>
+<ul>
+<li>打基准包安装并上报联网（注：填写唯一的tinkerId）</li>
+<li>对基准包的bug修复（可以是Java代码变更，资源的变更）</li>
+<li>修改基准包路径、填写补丁包tinkerId、mapping文件路径、resId文件路径</li>
+<li>执行tinkerPatchRelease打Release版本补丁包</li>
+<li>选择app/build/outputs/patch目录下的补丁包并上传（注：不要选择tinkerPatch目录下的补丁包，不然上传会有问题）</li>
+<li>编辑下发补丁规则，点击<strong>立即下发</strong></li>
+<li>重启基准包，请求补丁策略（SDK会自动下载补丁并合成）</li>
+<li>再次重启基准包，检验补丁应用结果</li>
+</ul>
+</li>
+</ol>
+<p>以上是应用补丁的流程，有同学可能会问，如果我想撤回怎么办？这里先解释下我们补丁的几种状态：</p>
+<ul>
+<li>下发中</li>
+<li>生效中、下发停止</li>
+<li>撤回中</li>
+</ul>
+<p><strong>下发中</strong>：表示你上传一个补丁后，点击立即下发之后的状态，表示后台正在下发补丁策略，补丁包对应的基线版本是可以收到对应的策略的。</p>
+<p><strong>生效中、下发停止</strong>：表示你已经下发过这个补丁，但因为你上传了新补丁，这个补丁下发会被停止，要注意一个目标版本只运行下发一个补丁。</p>
+<p><strong>撤回中</strong>：表示你不再下发这个补丁，这个操作是不可逆的，点击撤回，基线版本将不会再收到这个补丁策略。</p>
+<p><img src="/images/2016-11-28/hotfix-2.png" alt="补丁状态"></p>
+<p>以上就是Bugly热更新SDK的集成方式一些说明啦，如果还有疑问直接找Bugly-kirito咨询。</p>
+<h2 id="一些大家比较关注的问题"><a href="#一些大家比较关注的问题" class="headerlink" title="一些大家比较关注的问题"></a>一些大家比较关注的问题</h2><p><strong>Q：Bugly热更新会收费么？</strong></p>
+<p>A：大家可以放心，我们热更新服务目前是完全免费的。</p>
+<p><strong>Q：之前使用Tinker，怎么切换过来使用Bugly？</strong></p>
+<p>A： 你只需在dependencies中配置一句代码：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">compile &quot;com.tencent.bugly:crashreport_upgrade:1.2.0&quot;</div></pre></td></tr></table></figure>
+<p>注释掉以前的配置：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">// 可选，用于生成application类 </div><div class="line">   //provided(&apos;com.tencent.tinker:tinker-android-anno:1.7.5&apos;)</div><div class="line">   // tinker的核心库</div><div class="line">   // compile(&apos;com.tencent.tinker:tinker-android-lib:1.7.5&apos;)</div></pre></td></tr></table></figure>
+<p>插件配置不需要更改，只需要加上我们Bugly额外的tinker-support插件即可：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">// tinker gradle插件</div><div class="line">   classpath (&apos;com.tencent.tinker:tinker-patch-gradle-plugin:1.7.5&apos;)</div><div class="line"></div><div class="line">   // tinkersupport插件</div><div class="line">   classpath &quot;com.tencent.bugly:tinker-support:1.0.1&quot;</div></pre></td></tr></table></figure>
+<p>这里建议您不要随便更改插件版本，避免因为插件的更新导致您无法正常生成我们需要的补丁包。</p>
+<p><strong>Q：如果我配置了升级策略，又配置了补丁策略，会是怎样的效果？</strong></p>
+<p>A：升级策略优先级会高于补丁策略，后台会优先下发升级策略。毕竟你都要升级了，热更新只是帮助你修复bug而已。</p>
+<p><strong>Q：我只想使用热更新，不想使用升级？</strong></p>
+<p>A：热更新是包含在升级SDK里面的，你可以不配置任何升级策略，只需按照热更新文档集成即可。</p>
+<p><strong>Q：是否支持加固模式？</strong></p>
+<p>A：tinker是支持加固模式的，但需要你回退到Qzone方案<br>，将<code>usePreGeneratedPatchDex</code>设置为true。</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/images/2016-11-28/hotfix-3.png" alt="Alt" title="">
+                </div>
+                <div class="image-caption">Alt</div>
+            </figure>
+<p>但要注意Tinker官方的提示：</p>
+<blockquote>
+<p>是否提前生成dex，而非合成的方式。这套方案即回退成Qzone的方案，对于需要使用<strong>加固或者多flavor打包(建议使用其他方式生成渠道包)的用户可使用</strong>。但是这套方案需要插桩，会造成<strong>Dalvik下性能损耗以及Art补丁包可能过大的问题，务必谨慎使用</strong>。另外一方面，这种方案在Android N之后可能会产生问题，建议过滤N之后的用户。</p>
+</blockquote>
+<p><strong>Q：是否支持打多Flavor的patch包</strong><br>A：支持的。你需要配置productFlavor（示例）：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">productFlavors &#123;</div><div class="line">      xiaomi &#123;</div><div class="line">          applicationId &apos;com.tencent.bugly.hotfix.xiaomi&apos;</div><div class="line">      &#125;</div><div class="line"></div><div class="line">      yyb &#123;</div><div class="line">          applicationId &apos;com.tencent.bugly.hotfix.yyb&apos;</div><div class="line">      &#125;</div><div class="line">  &#125;</div></pre></td></tr></table></figure>
+<p>打flavor包，只需要配置构建flavor的目录，其他字段不需要填写（执行tinkerPatchAllFalvorRelease就可以得到所有flavor的包）：</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/images/2016-11-28/hotfix-4.png" alt="flavor路径配置" title="">
+                </div>
+                <div class="image-caption">flavor路径配置</div>
+            </figure>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/images/2016-11-28/hotfix-5.png" alt="打flavor的Task" title="">
+                </div>
+                <div class="image-caption">打flavor的Task</div>
+            </figure>
+<h2 id="总结-amp-展望"><a href="#总结-amp-展望" class="headerlink" title="总结&amp;展望"></a>总结&amp;展望</h2><p>关于Bugly热更新SDK你需要知道的一些事情，笔者已经讲完啦，如果你在使用过程中遇到任何问题可以及时跟我们反馈，我们会持续跟进优化SDK和完善接入流程，后续我们会分享更多我们Bugly关于热更新的一些技术和原理上的理解，希望本篇文章能够让使用Bugly热更新SDK的同学和想了解我们热更新的同学的有一些解惑。</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;h2 id=&quot;Bugly出热更新SDK了？&quot;&gt;&lt;a href=&quot;#Bugly出热更新SDK了？&quot; class=&quot;headerlink&quot; title=&quot;Bugly出热更新SDK了？&quot;&gt;&lt;/a&gt;Bugly出热更新SDK了？&lt;/h2&gt;&lt;p&gt;没错，Bugly也出热更新SDK啦，2016
+    
+    </summary>
+    
+      <category term="Android" scheme="https://devilwwj.github.io/categories/Android/"/>
+    
+    
+      <category term="Bugly" scheme="https://devilwwj.github.io/tags/Bugly/"/>
+    
+  </entry>
+  
+</feed>

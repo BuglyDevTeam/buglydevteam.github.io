@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  
+  <title>Bugly热更新SDK你需要知道的一些事 | Bugly技术团队博客 | 一种愉悦的开发方式</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  
+  <meta name="theme-color" content="#3F51B5">
+  
+  
+  <meta name="keywords" content="Bugly">
+  <meta name="description" content="Bugly出热更新SDK了？没错，Bugly也出热更新SDK啦，2016.11.25号，我们Bugly也上线了Android版的热更新SDK，大家都知道这一年来热更新被无数次提起，各大厂自主研发的热更新方案层出不穷，下面就列举一些大家比较熟悉的一些热更新方案：
+微信开源：Tinker大众点评：Nuwa阿里巴巴：Dexposed阿里巴巴：AndFix美团：Robust
+各个方案的优劣性笔者就不在这里">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Bugly热更新SDK你需要知道的一些事">
+<meta property="og:url" content="https://devilwwj.github.io/2016/11/28/bugly-android-hotfix-you-should-know/index.html">
+<meta property="og:site_name" content="Bugly技术团队博客">
+<meta property="og:description" content="Bugly出热更新SDK了？没错，Bugly也出热更新SDK啦，2016.11.25号，我们Bugly也上线了Android版的热更新SDK，大家都知道这一年来热更新被无数次提起，各大厂自主研发的热更新方案层出不穷，下面就列举一些大家比较熟悉的一些热更新方案：
+微信开源：Tinker大众点评：Nuwa阿里巴巴：Dexposed阿里巴巴：AndFix美团：Robust
+各个方案的优劣性笔者就不在这里">
+<meta property="og:image" content="https://devilwwj.github.io/images/2016-11-28/hotfix-0.png">
+<meta property="og:image" content="https://devilwwj.github.io/images/2016-11-28/hotfix-1.png">
+<meta property="og:image" content="https://devilwwj.github.io/images/2016-11-28/hotfix-2.png">
+<meta property="og:image" content="https://devilwwj.github.io/images/2016-11-28/hotfix-3.png">
+<meta property="og:image" content="https://devilwwj.github.io/images/2016-11-28/hotfix-4.png">
+<meta property="og:image" content="https://devilwwj.github.io/images/2016-11-28/hotfix-5.png">
+<meta property="og:updated_time" content="2016-12-03T08:48:48.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Bugly热更新SDK你需要知道的一些事">
+<meta name="twitter:description" content="Bugly出热更新SDK了？没错，Bugly也出热更新SDK啦，2016.11.25号，我们Bugly也上线了Android版的热更新SDK，大家都知道这一年来热更新被无数次提起，各大厂自主研发的热更新方案层出不穷，下面就列举一些大家比较熟悉的一些热更新方案：
+微信开源：Tinker大众点评：Nuwa阿里巴巴：Dexposed阿里巴巴：AndFix美团：Robust
+各个方案的优劣性笔者就不在这里">
+<meta name="twitter:image" content="https://devilwwj.github.io/images/2016-11-28/hotfix-0.png">
+  
+    <link rel="alternative" href="/atom.xml" title="Bugly技术团队博客" type="application/atom+xml">
+  
+  <link rel="shortcut icon" href="/favicon.ico">
+  <link rel="stylesheet" href="/css/style.css?v=1.3.2">
+</head>
+
+<body>
+  <div id="loading" class="active"></div>
+
+  <aside id="menu" class="hide" >
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-close"></i>
+    </a>
+    <div class="brand-wrap">
+      <div class="brand">
+        <a href="/" class="avatar waves-effect waves-circle waves-light">
+          <img src="/img/default/bugly_sina.jpg">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">Bugly</h5>
+          <a href="mailto:buglydevteam@yahoo.com" title="buglydevteam@yahoo.com" class="mail">buglydevteam@yahoo.com</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/"  >
+                <i class="icon icon-lg icon-home"></i>
+                主页
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives"  >
+                <i class="icon icon-lg icon-archives"></i>
+                Archives
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/tags"  >
+                <i class="icon icon-lg icon-tags"></i>
+                Tags
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/categories"  >
+                <i class="icon icon-lg icon-th-list"></i>
+                Categories
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://github.com/BuglyDevTeam" target="_blank" >
+                <i class="icon icon-lg icon-github"></i>
+                Github
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="http://weibo.com/tencentbugly?is_all=1#1480744696574" target="_blank" >
+                <i class="icon icon-lg icon-weibo"></i>
+                Weibo
+              </a>
+            </li>
+        
+      </ul>
+
+      <footer class="footer">
+  <p><a rel="license" target="_blank" href="http://creativecommons.org/licenses/by-nc-sa/4.0/"><img alt="Creative Commons License" style="border-width:0;vertical-align:middle;" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAFAAAAAPCAMAAABEF7i9AAAAllBMVEUAAAD///+rsapERER3d3eIiIjMzMzu7u4iIiKUmZO6v7rKzsoODg4RERFVVVUNDQ0NDg0PEA8zMzNLTEtbXltmZmZydnF9gn2AgICPkI+ZmZmqqqq7u7vFxsXIzMgNDQwZGRkgICAhISEkJSMnKCcuMC4xMzE5Ozk7PTtBQkFCQkJDQ0Nna2eGhoaHh4ezuLLGysbd3d1wVGpAAAAA4UlEQVR42q2T1xqCMAyFk7QsBQeKA9x7j/d/OSm22CpX0nzcpA1/T05aAOuBVkMAScQFHLnEwoCo2f1TnQIGoVMewjZEjVFN4GH1Ue1Cn2jWqwfsOOj6wDwGvotsl/c8lv7KIq1eLOsT0HMFHMIE/RZyHnlphryT9zyV+8WH5e8yQw3wnQvgAFxPTKUVi555SHR/lOfLMgVTeDlSfN+TaoUsiTyeIm+bCkHvCA2FUKG48LDtYBZBknsYP/G8NTw0gaaHyuQf4H5pecrB/FYCT2sL9zAfy1Xyjou6L8X2W7YcLyBZCRtnq/zfAAAAAElFTkSuQmCC" /></a></p>
+  <p>Bugly技术团队博客 &copy; 2016</p>
+  <p>Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme
+  <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a></p>
+  <a href="/atom.xml" target="_blank" class="rss" title="rss"><i class="icon icon-2x icon-rss-square"></i></a>
+</footer>
+
+    </div>
+  </div>
+</aside>
+
+  <main id="main">
+    <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">Bugly热更新SDK你需要知道的一些事</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="输入感兴趣的关键字">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">Bugly热更新SDK你需要知道的一些事</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2016-11-28T05:19:58.000Z" itemprop="datePublished" class="page-time">
+  2016-11-28
+</time>
+
+
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/Android/">Android</a></li></ul>
+
+            
+        </h5>
+    </div>
+
+    
+
+</header>
+
+
+<div class="container body-wrap">
+    
+    <aside class="post-widget">
+        <nav class="post-toc-wrap" id="post-toc">
+            <h4>TOC</h4>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#Bugly出热更新SDK了？"><span class="post-toc-number">1.</span> <span class="post-toc-text">Bugly出热更新SDK了？</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#为什么集成我们Bugly热更新SDK？"><span class="post-toc-number">2.</span> <span class="post-toc-text">为什么集成我们Bugly热更新SDK？</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#如何集成Bugly热更新SDK？"><span class="post-toc-number">3.</span> <span class="post-toc-text">如何集成Bugly热更新SDK？</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#一些大家比较关注的问题"><span class="post-toc-number">4.</span> <span class="post-toc-text">一些大家比较关注的问题</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#总结-amp-展望"><span class="post-toc-number">5.</span> <span class="post-toc-text">总结&展望</span></a></li></ol>
+        </nav>
+    </aside>
+    
+<article id="post-bugly-android-hotfix-you-should-know"
+  class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">Bugly热更新SDK你需要知道的一些事</h1>
+        <div class="post-meta">
+            <time datetime="2016-11-28T05:19:58.000Z" itemprop="datePublished" class="post-time">
+  2016-11-28
+</time>
+
+            
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/Android/">Android</a></li></ul>
+
+
+
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <h2 id="Bugly出热更新SDK了？"><a href="#Bugly出热更新SDK了？" class="headerlink" title="Bugly出热更新SDK了？"></a>Bugly出热更新SDK了？</h2><p>没错，Bugly也出热更新SDK啦，2016.11.25号，我们Bugly也上线了Android版的热更新SDK，大家都知道这一年来<strong>热更新</strong>被无数次提起，各大厂自主研发的热更新方案层出不穷，下面就列举一些大家比较熟悉的一些热更新方案：</p>
+<p>微信开源：<a href="https://github.com/Tencent/tinker" target="_blank" rel="external">Tinker</a><br>大众点评：<a href="https://github.com/jasonross/Nuwa" target="_blank" rel="external">Nuwa</a><br>阿里巴巴：<a href="https://github.com/alibaba/dexposed" target="_blank" rel="external">Dexposed</a><br>阿里巴巴：<a href="https://github.com/alibaba/AndFix" target="_blank" rel="external">AndFix</a><br>美团：<a href="http://tech.meituan.com/android_robust.html" target="_blank" rel="external">Robust</a></p>
+<p>各个方案的优劣性笔者就不在这里做过多讨论了，总的一句话<strong>没有最好的，只有最适合自己的</strong>。</p>
+<p><strong>我们Bugly也是出于高可用性的考虑，Tinker支持动态下发代码、So库以及资源，所以我们最终选择了Tinker方案作为我们SDK的一项能力。</strong></p>
+<p>这里有一点需要说明的，<strong>Android版的热更新SDK是包含在升级SDK里面的</strong>，所以如果你想使用我们提供的热更新能力需要下载对应版本的<a href="https://bugly.qq.com/v2/sdkDownload" target="_blank" rel="external">升级SDK</a>，目前我们在1.2.0版本才开始支持热更新：</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/images/2016-11-28/hotfix-0.png" alt="热更新SDK" title="">
+                </div>
+                <div class="image-caption">热更新SDK</div>
+            </figure>
+<font color="red">注意：升级SDK自1.2.0起将不再支持以jar包形式集成，我们建议您使用Android studio并且以gradle方式集成。</font>
+
+<h2 id="为什么集成我们Bugly热更新SDK？"><a href="#为什么集成我们Bugly热更新SDK？" class="headerlink" title="为什么集成我们Bugly热更新SDK？"></a>为什么集成我们Bugly热更新SDK？</h2><p>热更新能力是Bugly为解决开发者紧急修复线上Bug，而无需重新发版让用户无感知就能把问题修复的一项能力。Bugly目前采用<a href="https://github.com/Tencent/tinker" target="_blank" rel="external">微信Tinker</a>的开源方案，开发者只需要集成我们提供的SDK就可以实现<strong>自动下载补丁包、合成、并且应用补丁的功能</strong>，我们也提供了<strong>热更新管理后台</strong>让开发者对每个版本的补丁进行管理。</p>
+<p>集成我们SDK的好处是显而易见的：</p>
+<ul>
+<li>无需关注Tinker是如何合成补丁的</li>
+<li>无需自己搭建补丁管理后台</li>
+<li>无需考虑后台下发补丁策略的任何事情</li>
+<li>无需考虑补丁下载合成的时机，处理后台下发的策略</li>
+<li>我们提供了更加方便集成Tinker的方式</li>
+<li>我们提供应用升级一站式解决方案</li>
+</ul>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/images/2016-11-28/hotfix-1.png" alt="应用升级" title="">
+                </div>
+                <div class="image-caption">应用升级</div>
+            </figure>
+<h2 id="如何集成Bugly热更新SDK？"><a href="#如何集成Bugly热更新SDK？" class="headerlink" title="如何集成Bugly热更新SDK？"></a>如何集成Bugly热更新SDK？</h2><blockquote>
+<p>看文档、看文档、看文档。重要的事情说三遍。<br><a href="https://bugly.qq.com/docs/user-guide/instruction-manual-android-hotfix/" target="_blank" rel="external">Android热更新接入指南</a></p>
+</blockquote>
+<p>相信接入过Tinker的同学会发现使用Tinker还是有一定门槛的，小白用户第一次使用可能会懵圈，我们Bugly也希望能让第一次接入的同学能顺利使用上热更新，所以建议大家严格按照我们文档的流程来接入，如果遇到任何使用SDK的问题可以及时跟我们反馈（交流群号：130979883），但如果是Tinker插件的使用问题也是建议您认真查看<a href="https://github.com/Tencent/tinker/wiki" target="_blank" rel="external">Tinker Wiki</a>。</p>
+<p>简单概要说一下整个接入流程：</p>
+<ol>
+<li>配置插件依赖（这里包含<strong>tinker插件</strong>和<strong>tinker-support插件</strong>的依赖）</li>
+<li>apply插件（这里可以只配置<code>apply plugin: &#39;com.tencent.bugly.tinker-support&#39;</code>）</li>
+<li><p>集成SDK</p>
+<ul>
+<li>集成远程SDK仓库</li>
+<li>重新自定义Application、ApplicationLike</li>
+<li>AndroidManifest配置</li>
+<li>混淆配置</li>
+</ul>
+</li>
+<li><p>测试验证</p>
+<ul>
+<li>打基准包安装并上报联网（注：填写唯一的tinkerId）</li>
+<li>对基准包的bug修复（可以是Java代码变更，资源的变更）</li>
+<li>修改基准包路径、填写补丁包tinkerId、mapping文件路径、resId文件路径</li>
+<li>执行tinkerPatchRelease打Release版本补丁包</li>
+<li>选择app/build/outputs/patch目录下的补丁包并上传（注：不要选择tinkerPatch目录下的补丁包，不然上传会有问题）</li>
+<li>编辑下发补丁规则，点击<strong>立即下发</strong></li>
+<li>重启基准包，请求补丁策略（SDK会自动下载补丁并合成）</li>
+<li>再次重启基准包，检验补丁应用结果</li>
+</ul>
+</li>
+</ol>
+<p>以上是应用补丁的流程，有同学可能会问，如果我想撤回怎么办？这里先解释下我们补丁的几种状态：</p>
+<ul>
+<li>下发中</li>
+<li>生效中、下发停止</li>
+<li>撤回中</li>
+</ul>
+<p><strong>下发中</strong>：表示你上传一个补丁后，点击立即下发之后的状态，表示后台正在下发补丁策略，补丁包对应的基线版本是可以收到对应的策略的。</p>
+<p><strong>生效中、下发停止</strong>：表示你已经下发过这个补丁，但因为你上传了新补丁，这个补丁下发会被停止，要注意一个目标版本只运行下发一个补丁。</p>
+<p><strong>撤回中</strong>：表示你不再下发这个补丁，这个操作是不可逆的，点击撤回，基线版本将不会再收到这个补丁策略。</p>
+<p><img src="/images/2016-11-28/hotfix-2.png" alt="补丁状态"></p>
+<p>以上就是Bugly热更新SDK的集成方式一些说明啦，如果还有疑问直接找Bugly-kirito咨询。</p>
+<h2 id="一些大家比较关注的问题"><a href="#一些大家比较关注的问题" class="headerlink" title="一些大家比较关注的问题"></a>一些大家比较关注的问题</h2><p><strong>Q：Bugly热更新会收费么？</strong></p>
+<p>A：大家可以放心，我们热更新服务目前是完全免费的。</p>
+<p><strong>Q：之前使用Tinker，怎么切换过来使用Bugly？</strong></p>
+<p>A： 你只需在dependencies中配置一句代码：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">compile &quot;com.tencent.bugly:crashreport_upgrade:1.2.0&quot;</div></pre></td></tr></table></figure>
+<p>注释掉以前的配置：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">// 可选，用于生成application类 </div><div class="line">   //provided(&apos;com.tencent.tinker:tinker-android-anno:1.7.5&apos;)</div><div class="line">   // tinker的核心库</div><div class="line">   // compile(&apos;com.tencent.tinker:tinker-android-lib:1.7.5&apos;)</div></pre></td></tr></table></figure>
+<p>插件配置不需要更改，只需要加上我们Bugly额外的tinker-support插件即可：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">// tinker gradle插件</div><div class="line">   classpath (&apos;com.tencent.tinker:tinker-patch-gradle-plugin:1.7.5&apos;)</div><div class="line"></div><div class="line">   // tinkersupport插件</div><div class="line">   classpath &quot;com.tencent.bugly:tinker-support:1.0.1&quot;</div></pre></td></tr></table></figure>
+<p>这里建议您不要随便更改插件版本，避免因为插件的更新导致您无法正常生成我们需要的补丁包。</p>
+<p><strong>Q：如果我配置了升级策略，又配置了补丁策略，会是怎样的效果？</strong></p>
+<p>A：升级策略优先级会高于补丁策略，后台会优先下发升级策略。毕竟你都要升级了，热更新只是帮助你修复bug而已。</p>
+<p><strong>Q：我只想使用热更新，不想使用升级？</strong></p>
+<p>A：热更新是包含在升级SDK里面的，你可以不配置任何升级策略，只需按照热更新文档集成即可。</p>
+<p><strong>Q：是否支持加固模式？</strong></p>
+<p>A：tinker是支持加固模式的，但需要你回退到Qzone方案<br>，将<code>usePreGeneratedPatchDex</code>设置为true。</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/images/2016-11-28/hotfix-3.png" alt="Alt" title="">
+                </div>
+                <div class="image-caption">Alt</div>
+            </figure>
+<p>但要注意Tinker官方的提示：</p>
+<blockquote>
+<p>是否提前生成dex，而非合成的方式。这套方案即回退成Qzone的方案，对于需要使用<strong>加固或者多flavor打包(建议使用其他方式生成渠道包)的用户可使用</strong>。但是这套方案需要插桩，会造成<strong>Dalvik下性能损耗以及Art补丁包可能过大的问题，务必谨慎使用</strong>。另外一方面，这种方案在Android N之后可能会产生问题，建议过滤N之后的用户。</p>
+</blockquote>
+<p><strong>Q：是否支持打多Flavor的patch包</strong><br>A：支持的。你需要配置productFlavor（示例）：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">productFlavors &#123;</div><div class="line">      xiaomi &#123;</div><div class="line">          applicationId &apos;com.tencent.bugly.hotfix.xiaomi&apos;</div><div class="line">      &#125;</div><div class="line"></div><div class="line">      yyb &#123;</div><div class="line">          applicationId &apos;com.tencent.bugly.hotfix.yyb&apos;</div><div class="line">      &#125;</div><div class="line">  &#125;</div></pre></td></tr></table></figure>
+<p>打flavor包，只需要配置构建flavor的目录，其他字段不需要填写（执行tinkerPatchAllFalvorRelease就可以得到所有flavor的包）：</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/images/2016-11-28/hotfix-4.png" alt="flavor路径配置" title="">
+                </div>
+                <div class="image-caption">flavor路径配置</div>
+            </figure>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/images/2016-11-28/hotfix-5.png" alt="打flavor的Task" title="">
+                </div>
+                <div class="image-caption">打flavor的Task</div>
+            </figure>
+<h2 id="总结-amp-展望"><a href="#总结-amp-展望" class="headerlink" title="总结&amp;展望"></a>总结&amp;展望</h2><p>关于Bugly热更新SDK你需要知道的一些事情，笔者已经讲完啦，如果你在使用过程中遇到任何问题可以及时跟我们反馈，我们会持续跟进优化SDK和完善接入流程，后续我们会分享更多我们Bugly关于热更新的一些技术和原理上的理解，希望本篇文章能够让使用Bugly热更新SDK的同学和想了解我们热更新的同学的有一些解惑。</p>
+
+        </div>
+
+        <blockquote class="post-copyright">
+    <div class="content">
+        这里写留言或版权声明：<a href="/2016/11/28/bugly-android-hotfix-you-should-know/" target="_blank" rel="external">https://devilwwj.github.io/2016/11/28/bugly-android-hotfix-you-should-know/</a>
+    </div>
+    <footer>
+        <a href="https://devilwwj.github.io">
+            <img src="/img/default/bugly_sina.jpg" alt="Bugly">
+            Bugly
+        </a>
+    </footer>
+</blockquote>
+        
+
+
+        <div class="post-footer">
+            
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Bugly/">Bugly</a></li></ul>
+
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <div class="tit">分享到：</div>
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://devilwwj.github.io/2016/11/28/bugly-android-hotfix-you-should-know/&title=《Bugly热更新SDK你需要知道的一些事》 — Bugly技术团队博客&pic=https://devilwwj.github.io/img/default/bugly_sina.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://devilwwj.github.io/2016/11/28/bugly-android-hotfix-you-should-know/&title=《Bugly热更新SDK你需要知道的一些事》 — Bugly技术团队博客&source=Bugly技术团队博客，分享技术，交流思想。" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://devilwwj.github.io/2016/11/28/bugly-android-hotfix-you-should-know/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《Bugly热更新SDK你需要知道的一些事》 — Bugly技术团队博客&url=https://devilwwj.github.io/2016/11/28/bugly-android-hotfix-you-should-know/&via=https://devilwwj.github.io" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://devilwwj.github.io/2016/11/28/bugly-android-hotfix-you-should-know/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+
+
+    
+<div class="duoshuo" id="comments">
+	<div class="ds-thread" data-thread-key="bugly-android-hotfix-you-should-know" data-title="Bugly热更新SDK你需要知道的一些事" data-url="https://devilwwj.github.io/2016/11/28/bugly-android-hotfix-you-should-know/"></div>
+</div>
+<script src="/js/embed.min.js?v=1.3.2"></script>
+<script src="//cdn.bootcss.com/marked/0.3.6/marked.min.js" async="async"></script>
+<script>
+var duoshuoQuery = {short_name:'devilwwj', theme: 'none'}
+</script>
+
+
+
+
+
+</article>
+
+
+
+</div>
+
+  </main>
+  <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: false }</script>
+
+
+
+<div class="global-share" id="globalShare">
+    <div class="tit">分享到：</div>
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://devilwwj.github.io/2016/11/28/bugly-android-hotfix-you-should-know/&title=《Bugly热更新SDK你需要知道的一些事》 — Bugly技术团队博客&pic=https://devilwwj.github.io/img/default/bugly_sina.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://devilwwj.github.io/2016/11/28/bugly-android-hotfix-you-should-know/&title=《Bugly热更新SDK你需要知道的一些事》 — Bugly技术团队博客&source=Bugly技术团队博客，分享技术，交流思想。" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://devilwwj.github.io/2016/11/28/bugly-android-hotfix-you-should-know/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《Bugly热更新SDK你需要知道的一些事》 — Bugly技术团队博客&url=https://devilwwj.github.io/2016/11/28/bugly-android-hotfix-you-should-know/&via=https://devilwwj.github.io" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://devilwwj.github.io/2016/11/28/bugly-android-hotfix-you-should-know/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAN4AAADeCAAAAAB3DOFrAAACsUlEQVR42u3a207EMAwFQP7/p+EVaen22I6hSNOnantJJ0iJsf3xER+f347X31/Pk3te33l19Wr0YwceHh7e4NOvXpcM9v7+6p3JRERTgIeHh7fG6y3op5b1fHLzb8bDw8N7Di95tnr1avNIphIPDw/vv/CSwfJP76Uq8PDw8P6Wly/E+XlvQc/vOZxrwcPDw4t5eRXpOecr9T08PDy8cVU9KWL1krlnmwku34+Hh4e3wMsX3LwVIMHn78mvXjaH4eHh4R3l5Q8kSYFJfFsdK0qX4OHh4S3wJqWsamhbDaZ7k1XuUMDDw8Nr8fIgeJL2nQTueULk5m+Ih4eHN+b10gTvh8lJ+T29xAQeHh7eBi8Po3uhdrX5oDplBwpgeHh4eEXePIDOY/bkavXOm9/x8PDw1njVYlWO6UW8eVr5Zjrw8PDwFniTRGov2dorX/WSI3h4eHgbvCSNW01DJEt2MonzCcXDw8Pb4J1NQPQSvtVJbFb58PDw8A7x8vA3v9qbuF557KbpAQ8PD2+BV12CJ/heGmLynXh4eHgbvCQ92ivqz5MI80QGHh4e3h6v97mTYlU1+G42deHh4eEt83otVtV78tTwgf8S8PDw8BZ4yVJebQWoJoUnI0YbDx4eHt4Cr9dYUG3Sqgbu1aRGMzWMh4eH1+L1Pi4fJlnE86eqJTE8PDy83+Elg1XD3F7adx644+Hh4e3xqqQqPkndzhuwymUwPDw8vCLvVOlrUu461UDww8aAh4eHt8CrLr694Lu3tfTOmwceHh5ekXcqkTpvMsjbAgqbCh4eHt4ar1fUT1IJ1TC9OqE3iWA8PDy8B/CqbVK9JGw+EYc3Bjw8PLwHxJx5way3wZT3DTw8PLxDvLx1YE7KR89brA7kWvDw8PBi3rxvaxJ8V5sMRgw8PDy8Ke8LHYPFOt2PDT0AAAAASUVORK5CYII=" alt="微信分享二维码">
+</div>
+
+
+
+
+  <script src="//cdn.bootcss.com/node-waves/0.7.4/waves.min.js"></script>
+<script src="/js/main.min.js?v=1.3.2"></script>
+
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="/js/search.min.js?v=1.3.2"></script>
+
+
+
+
+
+
+
+
+
+</body>
+</html>
