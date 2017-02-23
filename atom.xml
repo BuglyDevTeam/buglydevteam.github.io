@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://devilwwj.github.io/"/>
-  <updated>2016-12-03T08:48:48.000Z</updated>
+  <updated>2017-02-23T09:18:59.000Z</updated>
   <id>https://devilwwj.github.io/</id>
   
   <author>
@@ -16,11 +16,143 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
+    <title>Git工作流的一些经验分享</title>
+    <link href="https://devilwwj.github.io/2017/02/23/share-the-experiences-of-git-workflow/"/>
+    <id>https://devilwwj.github.io/2017/02/23/share-the-experiences-of-git-workflow/</id>
+    <published>2017-02-23T09:10:21.000Z</published>
+    <updated>2017-02-23T09:18:59.000Z</updated>
+    
+    <content type="html"><![CDATA[<p>笔者使用git有一段时间了，踩过不少坑，这里分享下我在git工作流方面的一些经验。</p>
+<h2 id="什么是Git工作流？"><a href="#什么是Git工作流？" class="headerlink" title="什么是Git工作流？"></a>什么是Git工作流？</h2><p>Git工作流你可以理解为工作中团队成员遵守的一种代码管理方案，在Git中有以下几种工作流方案作为方案指导：</p>
+<ul>
+<li>集中式工作流</li>
+<li>功能开发工作流</li>
+<li>Gitflow工作流</li>
+<li>Forking工作流</li>
+</ul>
+<p>下面针对性说下每个工作流可能使用到的场景和适用性：</p>
+<p><strong>集中式工作流</strong></p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="./images/2017-02-23/1487161222036.png" alt="集中式工作流" title="">
+                </div>
+                <div class="image-caption">集中式工作流</div>
+            </figure>
+<p>这种工作方式跟svn类似，它只有一个master分支，开发者会先把远程的仓库克隆到本地，之后的修改和提交都在本地操作，直到在某个合适的时间点将本地的代码合入到远程master。这种工作流比较<strong>适合小团队</strong>，因为小团队可能不会太多的协作和合流的动作。</p>
+<p><strong>功能开发工作流</strong></p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="./images/2017-02-23/1487170001879.png" alt="功能开发工作流" title="">
+                </div>
+                <div class="image-caption">功能开发工作流</div>
+            </figure>
+<p>这种工作流关注功能开发，不直接往master提交代码保证它是稳定并且干净的，而是从master拉取feature分支进行功能开发，团队成员根据分工拉取不同的功能分支来进行不同的功能开发，这样就可以完全隔离开每个人的工作。当功能开发完成后，会向master分支发起Pull Request，只有审核通过的代码才真正允许合入master，这样就加强了团队成员之间的代码交流，也就是我们常说的Code Review。</p>
+<p><strong>Gitflow工作流</strong></p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="./images/2017-02-23/1487170152978.png" alt="Gitflow工作流" title="">
+                </div>
+                <div class="image-caption">Gitflow工作流</div>
+            </figure>
+<p>这个工作流其实也是我们团队采用的工作流，这也是很多团队会采用的工作流，它会相对复杂一点，但它非常适合用来管理大型项目的发布和维护，后面笔者也会详细讲下这一块。贯穿整个开发周期，master和develop分支是一直存在的，master分支可以被视为稳定的分支，而develop分支是相对稳定的分支，特性开发会在feature分支上进行，发布会在release分支上进行，而bug修复则会在hotfix分支上进行。笔者也是花了不少时间才熟练掌握整个工作流，期间遇到不少坑，后面会跟大家分享下。</p>
+<p><strong>Forking工作流</strong></p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="./images/2017-02-23/1487171732444.png" alt="Forking工作流" title="">
+                </div>
+                <div class="image-caption">Forking工作流</div>
+            </figure>
+<p>Forking工作流对于开源项目贡献者一定不陌生了，它有一个公开的中央仓库，其他贡献者可以Fork（克隆）这个仓库作为你自己的私有仓库，开源项目维护者可以直接往中央仓库push代码，而代码贡献者只能将代码push到自己的私有仓库，只有项目维护者接受代码贡献者往中央仓库发起的pull request才会真正合入。</p>
+<p><strong>小结一下</strong></p>
+<p>上面已经大致讲了在git当中的四种比较常见的工作流，都是需要开发者去实践理解的。</p>
+<p>关于git工作流，只有选用最合适自己团队的工作流才能有效的提高开发效率，上面提到的一些工作流模式都有各自的适用场景，如何选用适合自己团队的工作流得结合团队成员的实际情况，看团队成员对于工作流的理解程度，还有对于工作流的执行程度。</p>
+<h1 id="我们团队的一些实践"><a href="#我们团队的一些实践" class="headerlink" title="我们团队的一些实践"></a>我们团队的一些实践</h1><p>现在讲下我们团队针对Gitflow的一些实践：</p>
+<p><strong>master分支</strong></p>
+<ul>
+<li>主分支</li>
+<li>保持稳定</li>
+<li>不允许直接往这个分支提交代码，只允许往这个分支发起merge request</li>
+<li>只允许release分支和hotfix分支进行合流</li>
+</ul>
+<p><strong>develop分支</strong></p>
+<ul>
+<li>开发分支</li>
+<li>相对稳定的分支</li>
+<li>用于日常开发，包括代码优化、功能性开发</li>
+</ul>
+<p><strong>feature分支</strong></p>
+<ul>
+<li>特性分支</li>
+<li>从develop分支拉取，用于下个迭代版本的功能特性开发</li>
+<li>功能开发完毕合并到develop分支</li>
+</ul>
+<p><strong>release分支</strong></p>
+<ul>
+<li>发布分支</li>
+<li>从develop分支拉取</li>
+<li>用于回归测试，bug修复</li>
+<li>发布完成后打tag并合入master和develop</li>
+</ul>
+<p><strong>hotfix分支</strong></p>
+<ul>
+<li>热更新分支</li>
+<li>从develop分支拉取</li>
+<li>用于紧急修复上线版本的问题</li>
+<li>修复后打tag并合入master和develop</li>
+</ul>
+<p>大家可能会发现我们这个跟标准的Gitflow工作流有些差别，其实也没有什么标准不标准的，前面说到要结合团队的实际情况，我们团队对于目前所采用的工作方式都是达成共识的，所以有一些差异并没有关系。</p>
+<p>说了这么久，还没有一句git命令，那就让大家感受一下吧（感谢Bugly小色熊整理）：</p>
+<p> 1). 首先将远程代码拉取到本地</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">git clone xxx</div><div class="line">git checkout -b develop origin/develop</div></pre></td></tr></table></figure>
+<p> 2).新建feature分支</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">git checkout -b feature</div></pre></td></tr></table></figure>
+<p> 3).多人在feature上开发，如果中途需要将develop的变更合入feature，所有人需要将本地的代码变更提交到远程</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">git fetch origin </div><div class="line">git rebase origin/feature</div><div class="line">git push origin feature</div></pre></td></tr></table></figure>
+<p> 然后由feature负责人rebase develop分支，删除原来feature分支，重新新建feature分支；</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">git fetch origin</div><div class="line">git rebase origin/feature</div><div class="line">git rebase develop</div><div class="line">git push origin :feature</div><div class="line">git push origin feature</div></pre></td></tr></table></figure>
+<p> 这样可以保证feature保持线性变更；</p>
+<p> 4).feature开发完成后，所有人需要将本地的代码变更提交到远程</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">git fetch origin </div><div class="line">git rebase origin/feature</div><div class="line">git push origin feature</div></pre></td></tr></table></figure>
+<p> 然后由feature负责人rebase develop分支，然后将feature分支合入develop，删除feature；</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">git fetch origin</div><div class="line">git rebase origin/feature</div><div class="line">git rebase develop</div><div class="line">git checkout develop</div><div class="line">git merge feature</div><div class="line">git push origin :feature</div></pre></td></tr></table></figure>
+<p> 这样可以保证develop保持线性变更，各feature的变更完整可追溯；<br> 5).合入feature后拉出对应的release/feature分支，后续bug修复在release/feature上</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">git checkout develop</div><div class="line">git checkout -b release/feature</div></pre></td></tr></table></figure>
+<p> release/feature分支的同步合并与feature分支相同<br> 6).release/feature分支bug修复完成后，拉取对应的tag推送远程进行发布</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">git tag -a v1.0 -m &apos;feature发布&apos;</div><div class="line">git push origin v1.0</div></pre></td></tr></table></figure>
+<p> 之后将release/feature合入develop分支，然后删除</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">git rebase develop</div><div class="line">git checkout develop</div><div class="line">git merge release/feature</div><div class="line">git push origin :release/feature</div></pre></td></tr></table></figure>
+<p> 7).发布完成后将release合入master分支，保证master为最新稳定版本（实际操作为发起merge request）</p>
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>本篇文章主要针对笔者工作中对于git工作流的一些理解和实践，目前我们团队也是严格按照这样的工作流来完成日常的开发工作，一个让团队成员认可并且有效的工作流才是最适合我们的工作流，任何规则不是为了限制我们思考，而是为了让工作更加高效有序，尽量减少人为的失误。git是一个博大精深的东西，笔者也是不断在实际应用中去理解它，任何一门技术的学习也是这样，就像程序员常用来装逼的一首诗：</p>
+<blockquote>
+<p>纸上得来终觉浅，绝知此事要躬行。</p>
+</blockquote>
+<p>参考资料：<a href="http://blog.jobbole.com/76847/" target="_blank" rel="external">http://blog.jobbole.com/76847/</a></p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;笔者使用git有一段时间了，踩过不少坑，这里分享下我在git工作流方面的一些经验。&lt;/p&gt;
+&lt;h2 id=&quot;什么是Git工作流？&quot;&gt;&lt;a href=&quot;#什么是Git工作流？&quot; class=&quot;headerlink&quot; title=&quot;什么是Git工作流？&quot;&gt;&lt;/a&gt;什么是Git工
+    
+    </summary>
+    
+      <category term="经验分享" scheme="https://devilwwj.github.io/categories/%E7%BB%8F%E9%AA%8C%E5%88%86%E4%BA%AB/"/>
+    
+    
+      <category term="Git" scheme="https://devilwwj.github.io/tags/Git/"/>
+    
+  </entry>
+  
+  <entry>
     <title>Bugly热更新SDK你需要知道的一些事</title>
     <link href="https://devilwwj.github.io/2016/11/28/bugly-android-hotfix-you-should-know/"/>
     <id>https://devilwwj.github.io/2016/11/28/bugly-android-hotfix-you-should-know/</id>
     <published>2016-11-28T05:19:58.000Z</published>
-    <updated>2016-12-03T08:48:48.000Z</updated>
+    <updated>2016-12-03T11:50:01.000Z</updated>
     
     <content type="html"><![CDATA[<h2 id="Bugly出热更新SDK了？"><a href="#Bugly出热更新SDK了？" class="headerlink" title="Bugly出热更新SDK了？"></a>Bugly出热更新SDK了？</h2><p>没错，Bugly也出热更新SDK啦，2016.11.25号，我们Bugly也上线了Android版的热更新SDK，大家都知道这一年来<strong>热更新</strong>被无数次提起，各大厂自主研发的热更新方案层出不穷，下面就列举一些大家比较熟悉的一些热更新方案：</p>
 <p>微信开源：<a href="https://github.com/Tencent/tinker" target="_blank" rel="external">Tinker</a><br>大众点评：<a href="https://github.com/jasonross/Nuwa" target="_blank" rel="external">Nuwa</a><br>阿里巴巴：<a href="https://github.com/alibaba/dexposed" target="_blank" rel="external">Dexposed</a><br>阿里巴巴：<a href="https://github.com/alibaba/AndFix" target="_blank" rel="external">AndFix</a><br>美团：<a href="http://tech.meituan.com/android_robust.html" target="_blank" rel="external">Robust</a></p>
@@ -150,6 +282,10 @@
     
     
       <category term="Bugly" scheme="https://devilwwj.github.io/tags/Bugly/"/>
+    
+      <category term="热更新" scheme="https://devilwwj.github.io/tags/%E7%83%AD%E6%9B%B4%E6%96%B0/"/>
+    
+      <category term="Tinker" scheme="https://devilwwj.github.io/tags/Tinker/"/>
     
   </entry>
   

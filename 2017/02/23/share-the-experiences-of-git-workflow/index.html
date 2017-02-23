@@ -1,0 +1,556 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  
+  <title>Git工作流的一些经验分享 | Bugly技术团队博客 | 一种愉悦的开发方式</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  
+  <meta name="theme-color" content="#3F51B5">
+  
+  
+  <meta name="keywords" content="Git">
+  <meta name="description" content="笔者使用git有一段时间了，踩过不少坑，这里分享下我在git工作流方面的一些经验。
+什么是Git工作流？Git工作流你可以理解为工作中团队成员遵守的一种代码管理方案，在Git中有以下几种工作流方案作为方案指导：
+
+集中式工作流
+功能开发工作流
+Gitflow工作流
+Forking工作流
+
+下面针对性说下每个工作流可能使用到的场景和适用性：
+集中式工作流">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Git工作流的一些经验分享">
+<meta property="og:url" content="https://devilwwj.github.io/2017/02/23/share-the-experiences-of-git-workflow/index.html">
+<meta property="og:site_name" content="Bugly技术团队博客">
+<meta property="og:description" content="笔者使用git有一段时间了，踩过不少坑，这里分享下我在git工作流方面的一些经验。
+什么是Git工作流？Git工作流你可以理解为工作中团队成员遵守的一种代码管理方案，在Git中有以下几种工作流方案作为方案指导：
+
+集中式工作流
+功能开发工作流
+Gitflow工作流
+Forking工作流
+
+下面针对性说下每个工作流可能使用到的场景和适用性：
+集中式工作流">
+<meta property="og:image" content="https://devilwwj.github.io/./images/2017-02-23/1487161222036.png">
+<meta property="og:image" content="https://devilwwj.github.io/./images/2017-02-23/1487170001879.png">
+<meta property="og:image" content="https://devilwwj.github.io/./images/2017-02-23/1487170152978.png">
+<meta property="og:image" content="https://devilwwj.github.io/./images/2017-02-23/1487171732444.png">
+<meta property="og:updated_time" content="2017-02-23T09:18:59.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Git工作流的一些经验分享">
+<meta name="twitter:description" content="笔者使用git有一段时间了，踩过不少坑，这里分享下我在git工作流方面的一些经验。
+什么是Git工作流？Git工作流你可以理解为工作中团队成员遵守的一种代码管理方案，在Git中有以下几种工作流方案作为方案指导：
+
+集中式工作流
+功能开发工作流
+Gitflow工作流
+Forking工作流
+
+下面针对性说下每个工作流可能使用到的场景和适用性：
+集中式工作流">
+<meta name="twitter:image" content="https://devilwwj.github.io/./images/2017-02-23/1487161222036.png">
+  
+    <link rel="alternative" href="/atom.xml" title="Bugly技术团队博客" type="application/atom+xml">
+  
+  <link rel="shortcut icon" href="/img/default/bugly_sina.jpg">
+  <link rel="stylesheet" href="/css/style.css?v=1.3.2">
+</head>
+
+<body>
+  <div id="loading" class="active"></div>
+
+  <aside id="menu" class="hide" >
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-close"></i>
+    </a>
+    <div class="brand-wrap">
+      <div class="brand">
+        <a href="/" class="avatar waves-effect waves-circle waves-light">
+          <img src="/img/default/bugly_sina.jpg">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">Bugly</h5>
+          <a href="mailto:buglydevteam@yahoo.com" title="buglydevteam@yahoo.com" class="mail">buglydevteam@yahoo.com</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/"  >
+                <i class="icon icon-lg icon-home"></i>
+                主页
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives"  >
+                <i class="icon icon-lg icon-archives"></i>
+                Archives
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/tags"  >
+                <i class="icon icon-lg icon-tags"></i>
+                Tags
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/categories"  >
+                <i class="icon icon-lg icon-th-list"></i>
+                Categories
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://github.com/BuglyDevTeam" target="_blank" >
+                <i class="icon icon-lg icon-github"></i>
+                Github
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="http://weibo.com/tencentbugly?is_all=1#1480744696574" target="_blank" >
+                <i class="icon icon-lg icon-weibo"></i>
+                Weibo
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://bugly.qq.com/v2/index"  >
+                <i class="icon icon-lg icon-link"></i>
+                Bugly官网
+              </a>
+            </li>
+        
+      </ul>
+
+      <footer class="footer">
+  <p><a rel="license" target="_blank" href="http://creativecommons.org/licenses/by-nc-sa/4.0/"><img alt="Creative Commons License" style="border-width:0;vertical-align:middle;" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAFAAAAAPCAMAAABEF7i9AAAAllBMVEUAAAD///+rsapERER3d3eIiIjMzMzu7u4iIiKUmZO6v7rKzsoODg4RERFVVVUNDQ0NDg0PEA8zMzNLTEtbXltmZmZydnF9gn2AgICPkI+ZmZmqqqq7u7vFxsXIzMgNDQwZGRkgICAhISEkJSMnKCcuMC4xMzE5Ozk7PTtBQkFCQkJDQ0Nna2eGhoaHh4ezuLLGysbd3d1wVGpAAAAA4UlEQVR42q2T1xqCMAyFk7QsBQeKA9x7j/d/OSm22CpX0nzcpA1/T05aAOuBVkMAScQFHLnEwoCo2f1TnQIGoVMewjZEjVFN4GH1Ue1Cn2jWqwfsOOj6wDwGvotsl/c8lv7KIq1eLOsT0HMFHMIE/RZyHnlphryT9zyV+8WH5e8yQw3wnQvgAFxPTKUVi555SHR/lOfLMgVTeDlSfN+TaoUsiTyeIm+bCkHvCA2FUKG48LDtYBZBknsYP/G8NTw0gaaHyuQf4H5pecrB/FYCT2sL9zAfy1Xyjou6L8X2W7YcLyBZCRtnq/zfAAAAAElFTkSuQmCC" /></a></p>
+  <p>Bugly技术团队博客 &copy; 2016 - 2017</p>
+  <p>Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme
+  <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a></p>
+  <a href="/atom.xml" target="_blank" class="rss" title="rss"><i class="icon icon-2x icon-rss-square"></i></a>
+</footer>
+
+    </div>
+  </div>
+</aside>
+
+  <main id="main">
+    <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">Git工作流的一些经验分享</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="输入感兴趣的关键字">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">Git工作流的一些经验分享</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2017-02-23T09:10:21.000Z" itemprop="datePublished" class="page-time">
+  2017-02-23
+</time>
+
+
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/经验分享/">经验分享</a></li></ul>
+
+            
+        </h5>
+    </div>
+
+    
+
+</header>
+
+
+<div class="container body-wrap">
+    
+    <aside class="post-widget">
+        <nav class="post-toc-wrap" id="post-toc">
+            <h4>TOC</h4>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#什么是Git工作流？"><span class="post-toc-number">1.</span> <span class="post-toc-text">什么是Git工作流？</span></a></li></ol></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#我们团队的一些实践"><span class="post-toc-number"></span> <span class="post-toc-text">我们团队的一些实践</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#总结"><span class="post-toc-number"></span> <span class="post-toc-text">总结</span></a>
+        </nav>
+    </aside>
+    
+<article id="post-share-the-experiences-of-git-workflow"
+  class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">Git工作流的一些经验分享</h1>
+        <div class="post-meta">
+            <time datetime="2017-02-23T09:10:21.000Z" itemprop="datePublished" class="post-time">
+  2017-02-23
+</time>
+
+            
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/经验分享/">经验分享</a></li></ul>
+
+
+
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <p>笔者使用git有一段时间了，踩过不少坑，这里分享下我在git工作流方面的一些经验。</p>
+<h2 id="什么是Git工作流？"><a href="#什么是Git工作流？" class="headerlink" title="什么是Git工作流？"></a>什么是Git工作流？</h2><p>Git工作流你可以理解为工作中团队成员遵守的一种代码管理方案，在Git中有以下几种工作流方案作为方案指导：</p>
+<ul>
+<li>集中式工作流</li>
+<li>功能开发工作流</li>
+<li>Gitflow工作流</li>
+<li>Forking工作流</li>
+</ul>
+<p>下面针对性说下每个工作流可能使用到的场景和适用性：</p>
+<p><strong>集中式工作流</strong></p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="./images/2017-02-23/1487161222036.png" alt="集中式工作流" title="">
+                </div>
+                <div class="image-caption">集中式工作流</div>
+            </figure>
+<p>这种工作方式跟svn类似，它只有一个master分支，开发者会先把远程的仓库克隆到本地，之后的修改和提交都在本地操作，直到在某个合适的时间点将本地的代码合入到远程master。这种工作流比较<strong>适合小团队</strong>，因为小团队可能不会太多的协作和合流的动作。</p>
+<p><strong>功能开发工作流</strong></p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="./images/2017-02-23/1487170001879.png" alt="功能开发工作流" title="">
+                </div>
+                <div class="image-caption">功能开发工作流</div>
+            </figure>
+<p>这种工作流关注功能开发，不直接往master提交代码保证它是稳定并且干净的，而是从master拉取feature分支进行功能开发，团队成员根据分工拉取不同的功能分支来进行不同的功能开发，这样就可以完全隔离开每个人的工作。当功能开发完成后，会向master分支发起Pull Request，只有审核通过的代码才真正允许合入master，这样就加强了团队成员之间的代码交流，也就是我们常说的Code Review。</p>
+<p><strong>Gitflow工作流</strong></p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="./images/2017-02-23/1487170152978.png" alt="Gitflow工作流" title="">
+                </div>
+                <div class="image-caption">Gitflow工作流</div>
+            </figure>
+<p>这个工作流其实也是我们团队采用的工作流，这也是很多团队会采用的工作流，它会相对复杂一点，但它非常适合用来管理大型项目的发布和维护，后面笔者也会详细讲下这一块。贯穿整个开发周期，master和develop分支是一直存在的，master分支可以被视为稳定的分支，而develop分支是相对稳定的分支，特性开发会在feature分支上进行，发布会在release分支上进行，而bug修复则会在hotfix分支上进行。笔者也是花了不少时间才熟练掌握整个工作流，期间遇到不少坑，后面会跟大家分享下。</p>
+<p><strong>Forking工作流</strong></p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="./images/2017-02-23/1487171732444.png" alt="Forking工作流" title="">
+                </div>
+                <div class="image-caption">Forking工作流</div>
+            </figure>
+<p>Forking工作流对于开源项目贡献者一定不陌生了，它有一个公开的中央仓库，其他贡献者可以Fork（克隆）这个仓库作为你自己的私有仓库，开源项目维护者可以直接往中央仓库push代码，而代码贡献者只能将代码push到自己的私有仓库，只有项目维护者接受代码贡献者往中央仓库发起的pull request才会真正合入。</p>
+<p><strong>小结一下</strong></p>
+<p>上面已经大致讲了在git当中的四种比较常见的工作流，都是需要开发者去实践理解的。</p>
+<p>关于git工作流，只有选用最合适自己团队的工作流才能有效的提高开发效率，上面提到的一些工作流模式都有各自的适用场景，如何选用适合自己团队的工作流得结合团队成员的实际情况，看团队成员对于工作流的理解程度，还有对于工作流的执行程度。</p>
+<h1 id="我们团队的一些实践"><a href="#我们团队的一些实践" class="headerlink" title="我们团队的一些实践"></a>我们团队的一些实践</h1><p>现在讲下我们团队针对Gitflow的一些实践：</p>
+<p><strong>master分支</strong></p>
+<ul>
+<li>主分支</li>
+<li>保持稳定</li>
+<li>不允许直接往这个分支提交代码，只允许往这个分支发起merge request</li>
+<li>只允许release分支和hotfix分支进行合流</li>
+</ul>
+<p><strong>develop分支</strong></p>
+<ul>
+<li>开发分支</li>
+<li>相对稳定的分支</li>
+<li>用于日常开发，包括代码优化、功能性开发</li>
+</ul>
+<p><strong>feature分支</strong></p>
+<ul>
+<li>特性分支</li>
+<li>从develop分支拉取，用于下个迭代版本的功能特性开发</li>
+<li>功能开发完毕合并到develop分支</li>
+</ul>
+<p><strong>release分支</strong></p>
+<ul>
+<li>发布分支</li>
+<li>从develop分支拉取</li>
+<li>用于回归测试，bug修复</li>
+<li>发布完成后打tag并合入master和develop</li>
+</ul>
+<p><strong>hotfix分支</strong></p>
+<ul>
+<li>热更新分支</li>
+<li>从develop分支拉取</li>
+<li>用于紧急修复上线版本的问题</li>
+<li>修复后打tag并合入master和develop</li>
+</ul>
+<p>大家可能会发现我们这个跟标准的Gitflow工作流有些差别，其实也没有什么标准不标准的，前面说到要结合团队的实际情况，我们团队对于目前所采用的工作方式都是达成共识的，所以有一些差异并没有关系。</p>
+<p>说了这么久，还没有一句git命令，那就让大家感受一下吧（感谢Bugly小色熊整理）：</p>
+<p> 1). 首先将远程代码拉取到本地</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">git clone xxx</div><div class="line">git checkout -b develop origin/develop</div></pre></td></tr></table></figure>
+<p> 2).新建feature分支</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">git checkout -b feature</div></pre></td></tr></table></figure>
+<p> 3).多人在feature上开发，如果中途需要将develop的变更合入feature，所有人需要将本地的代码变更提交到远程</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">git fetch origin </div><div class="line">git rebase origin/feature</div><div class="line">git push origin feature</div></pre></td></tr></table></figure>
+<p> 然后由feature负责人rebase develop分支，删除原来feature分支，重新新建feature分支；</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">git fetch origin</div><div class="line">git rebase origin/feature</div><div class="line">git rebase develop</div><div class="line">git push origin :feature</div><div class="line">git push origin feature</div></pre></td></tr></table></figure>
+<p> 这样可以保证feature保持线性变更；</p>
+<p> 4).feature开发完成后，所有人需要将本地的代码变更提交到远程</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">git fetch origin </div><div class="line">git rebase origin/feature</div><div class="line">git push origin feature</div></pre></td></tr></table></figure>
+<p> 然后由feature负责人rebase develop分支，然后将feature分支合入develop，删除feature；</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">git fetch origin</div><div class="line">git rebase origin/feature</div><div class="line">git rebase develop</div><div class="line">git checkout develop</div><div class="line">git merge feature</div><div class="line">git push origin :feature</div></pre></td></tr></table></figure>
+<p> 这样可以保证develop保持线性变更，各feature的变更完整可追溯；<br> 5).合入feature后拉出对应的release/feature分支，后续bug修复在release/feature上</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">git checkout develop</div><div class="line">git checkout -b release/feature</div></pre></td></tr></table></figure>
+<p> release/feature分支的同步合并与feature分支相同<br> 6).release/feature分支bug修复完成后，拉取对应的tag推送远程进行发布</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">git tag -a v1.0 -m &apos;feature发布&apos;</div><div class="line">git push origin v1.0</div></pre></td></tr></table></figure>
+<p> 之后将release/feature合入develop分支，然后删除</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">git rebase develop</div><div class="line">git checkout develop</div><div class="line">git merge release/feature</div><div class="line">git push origin :release/feature</div></pre></td></tr></table></figure>
+<p> 7).发布完成后将release合入master分支，保证master为最新稳定版本（实际操作为发起merge request）</p>
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>本篇文章主要针对笔者工作中对于git工作流的一些理解和实践，目前我们团队也是严格按照这样的工作流来完成日常的开发工作，一个让团队成员认可并且有效的工作流才是最适合我们的工作流，任何规则不是为了限制我们思考，而是为了让工作更加高效有序，尽量减少人为的失误。git是一个博大精深的东西，笔者也是不断在实际应用中去理解它，任何一门技术的学习也是这样，就像程序员常用来装逼的一首诗：</p>
+<blockquote>
+<p>纸上得来终觉浅，绝知此事要躬行。</p>
+</blockquote>
+<p>参考资料：<a href="http://blog.jobbole.com/76847/" target="_blank" rel="external">http://blog.jobbole.com/76847/</a></p>
+
+        </div>
+
+        <blockquote class="post-copyright">
+    <div class="content">
+        转载请注明出处：<a href="/2017/02/23/share-the-experiences-of-git-workflow/" target="_blank" rel="external">https://devilwwj.github.io/2017/02/23/share-the-experiences-of-git-workflow/</a>
+    </div>
+    <footer>
+        <a href="https://devilwwj.github.io">
+            <img src="/img/default/bugly_sina.jpg" alt="Bugly">
+            Bugly
+        </a>
+    </footer>
+</blockquote>
+        
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;" class="page-reward-btn waves-effect waves-circle waves-light">赏</a>
+</div>
+
+
+
+        <div class="post-footer">
+            
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Git/">Git</a></li></ul>
+
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <div class="tit">分享到：</div>
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://devilwwj.github.io/2017/02/23/share-the-experiences-of-git-workflow/&title=《Git工作流的一些经验分享》 — Bugly技术团队博客&pic=https://devilwwj.github.io/img/default/bugly_sina.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://devilwwj.github.io/2017/02/23/share-the-experiences-of-git-workflow/&title=《Git工作流的一些经验分享》 — Bugly技术团队博客&source=Bugly技术团队博客，分享技术，交流思想。" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://devilwwj.github.io/2017/02/23/share-the-experiences-of-git-workflow/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《Git工作流的一些经验分享》 — Bugly技术团队博客&url=https://devilwwj.github.io/2017/02/23/share-the-experiences-of-git-workflow/&via=https://devilwwj.github.io" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://devilwwj.github.io/2017/02/23/share-the-experiences-of-git-workflow/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between flex-row-reverse">
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/2016/11/28/bugly-android-hotfix-you-should-know/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">Bugly热更新SDK你需要知道的一些事</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+<div class="duoshuo" id="comments">
+	<div class="ds-thread" data-thread-key="share-the-experiences-of-git-workflow" data-title="Git工作流的一些经验分享" data-url="https://devilwwj.github.io/2017/02/23/share-the-experiences-of-git-workflow/"></div>
+</div>
+<script src="/js/embed.min.js?v=1.3.2"></script>
+<script src="//cdn.bootcss.com/marked/0.3.6/marked.min.js" async="async"></script>
+<script>
+var duoshuoQuery = {short_name:'buglydevteam', theme: 'none'}
+</script>
+
+
+
+
+
+</article>
+
+<div id="reward" class="page-modal reward-lay">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <h3 class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        你的支持是Bugly持续输出的动力
+        <i class="icon icon-quote-right"></i>
+    </h3>
+    <ul class="reward-items">
+        
+        <li>
+            <img src="/img/default/wechat.png" title="微信打赏二维码" alt="微信打赏二维码">
+            <p>微信</p>
+        </li>
+        
+
+        
+        <li>
+            <img src="/img/default/alipay.png" title="支付宝打赏二维码" alt="支付宝打赏二维码">
+            <p>支付宝</p>
+        </li>
+        
+    </ul>
+</div>
+
+
+
+</div>
+
+  </main>
+  <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: true }</script>
+
+
+
+<div class="global-share" id="globalShare">
+    <div class="tit">分享到：</div>
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://devilwwj.github.io/2017/02/23/share-the-experiences-of-git-workflow/&title=《Git工作流的一些经验分享》 — Bugly技术团队博客&pic=https://devilwwj.github.io/img/default/bugly_sina.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://devilwwj.github.io/2017/02/23/share-the-experiences-of-git-workflow/&title=《Git工作流的一些经验分享》 — Bugly技术团队博客&source=Bugly技术团队博客，分享技术，交流思想。" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://devilwwj.github.io/2017/02/23/share-the-experiences-of-git-workflow/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《Git工作流的一些经验分享》 — Bugly技术团队博客&url=https://devilwwj.github.io/2017/02/23/share-the-experiences-of-git-workflow/&via=https://devilwwj.github.io" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://devilwwj.github.io/2017/02/23/share-the-experiences-of-git-workflow/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAN4AAADeCAAAAAB3DOFrAAACqUlEQVR42u3ay27jQAwEwPz/T2evC+zG6iZnDAconQw/5CkZEOnmfH3Fx/c/x9/PJ599fZ6fztZ+1/DAw8PDWy/9J8brhSb4n55pP5t8Ox4eHt5tXnJDP/Vqfvduz4mHh4f3mbx8Ka9h+at5K4+Hh4f3ybzki89eODw8PLxP47WxwusCkIQOs9jiYtaCh4eHF/PyKdLnPL4y38PDw8NbT9VPjabykCJpo4vV4uHh4V3gbQZUm80Bbcibt8t4eHh47+G1mwY2Gw6S4vG6SCRFCA8PD+82L7/dt2Fu2y7PcoaHM+Dh4eEd5c0a4jyAaBvoNhCpYwg8PDy8Ne/UIpJWuw1884FcPQbDw8PDW/DaP/ztmKoNEQ6HEXh4eHhvzDnbwVj+TPv4QKnAw8PDO8q7t31q0zS31IcYAg8PD+8or11QEqq2Y7P2nbPihIeHh3eD15aETayQD9vyBh0PDw/vnbw2GG3fkwcT+a9R7ynDw8PDO8SbMWbFYxZAtO34w+gLDw8Pb83b/O2fNcTtgtp44uGceHh4eId43/GRY/YhwiZKxsPDw7vHS1rqNmCdbWOdBcFFScDDw8M7xEtu9Pntfr9lajNIi2IIPDw8vDWvbaPzgjF7z6Yk1L8YHh4e3oiXN7v585vF5S14fuHw8PDwbvM2o/o2MpiVpXqQhoeHh3eNl28ISIpBG/4mF6iNifHw8PDew9vEr7MtXG0xSI7/tNR4eHh4h3ibBnd2+96EF/nGBTw8PLx7vPZWuykheaiRfzZfAx4eHt5Z3qnR/qky047fHl7Fw8PDu8ZrJ0dt3NA2vnk1e1gnHh4e3sfw2pH/bFNCXkjw8PDwfi+vLQntBao3aeHh4eFd482WO6POCswspMDDw8O7wZv94W+jhJa9H7zh4eHhXeD9ATI9nHGeqNaRAAAAAElFTkSuQmCC" alt="微信分享二维码">
+</div>
+
+
+
+
+  <script src="//cdn.bootcss.com/node-waves/0.7.4/waves.min.js"></script>
+<script src="/js/main.min.js?v=1.3.2"></script>
+
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="/js/search.min.js?v=1.3.2"></script>
+
+
+
+
+
+
+
+
+
+</body>
+</html>
