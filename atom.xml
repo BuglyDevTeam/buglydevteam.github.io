@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://devilwwj.github.io/"/>
-  <updated>2017-02-23T09:18:59.000Z</updated>
+  <updated>2017-02-23T09:26:36.000Z</updated>
   <id>https://devilwwj.github.io/</id>
   
   <author>
@@ -20,7 +20,7 @@
     <link href="https://devilwwj.github.io/2017/02/23/share-the-experiences-of-git-workflow/"/>
     <id>https://devilwwj.github.io/2017/02/23/share-the-experiences-of-git-workflow/</id>
     <published>2017-02-23T09:10:21.000Z</published>
-    <updated>2017-02-23T09:18:59.000Z</updated>
+    <updated>2017-02-23T09:26:36.000Z</updated>
     
     <content type="html"><![CDATA[<p>笔者使用git有一段时间了，踩过不少坑，这里分享下我在git工作流方面的一些经验。</p>
 <h2 id="什么是Git工作流？"><a href="#什么是Git工作流？" class="headerlink" title="什么是Git工作流？"></a>什么是Git工作流？</h2><p>Git工作流你可以理解为工作中团队成员遵守的一种代码管理方案，在Git中有以下几种工作流方案作为方案指导：</p>
@@ -35,7 +35,7 @@
 <figure class="image-bubble">
                 <div class="img-lightbox">
                     <div class="overlay"></div>
-                    <img src="./images/2017-02-23/1487161222036.png" alt="集中式工作流" title="">
+                    <img src="/images/2017-02-23/1487161222036.png" alt="集中式工作流" title="">
                 </div>
                 <div class="image-caption">集中式工作流</div>
             </figure>
@@ -44,7 +44,7 @@
 <figure class="image-bubble">
                 <div class="img-lightbox">
                     <div class="overlay"></div>
-                    <img src="./images/2017-02-23/1487170001879.png" alt="功能开发工作流" title="">
+                    <img src="/images/2017-02-23/1487170001879.png" alt="功能开发工作流" title="">
                 </div>
                 <div class="image-caption">功能开发工作流</div>
             </figure>
@@ -53,7 +53,7 @@
 <figure class="image-bubble">
                 <div class="img-lightbox">
                     <div class="overlay"></div>
-                    <img src="./images/2017-02-23/1487170152978.png" alt="Gitflow工作流" title="">
+                    <img src="/images/2017-02-23/1487170152978.png" alt="Gitflow工作流" title="">
                 </div>
                 <div class="image-caption">Gitflow工作流</div>
             </figure>
@@ -62,7 +62,7 @@
 <figure class="image-bubble">
                 <div class="img-lightbox">
                     <div class="overlay"></div>
-                    <img src="./images/2017-02-23/1487171732444.png" alt="Forking工作流" title="">
+                    <img src="/images/2017-02-23/951487171732444.png" alt="Forking工作流" title="">
                 </div>
                 <div class="image-caption">Forking工作流</div>
             </figure>
@@ -70,7 +70,7 @@
 <p><strong>小结一下</strong></p>
 <p>上面已经大致讲了在git当中的四种比较常见的工作流，都是需要开发者去实践理解的。</p>
 <p>关于git工作流，只有选用最合适自己团队的工作流才能有效的提高开发效率，上面提到的一些工作流模式都有各自的适用场景，如何选用适合自己团队的工作流得结合团队成员的实际情况，看团队成员对于工作流的理解程度，还有对于工作流的执行程度。</p>
-<h1 id="我们团队的一些实践"><a href="#我们团队的一些实践" class="headerlink" title="我们团队的一些实践"></a>我们团队的一些实践</h1><p>现在讲下我们团队针对Gitflow的一些实践：</p>
+<h2 id="我们团队的一些实践"><a href="#我们团队的一些实践" class="headerlink" title="我们团队的一些实践"></a>我们团队的一些实践</h2><p>现在讲下我们团队针对Gitflow的一些实践：</p>
 <p><strong>master分支</strong></p>
 <ul>
 <li>主分支</li>
@@ -126,7 +126,7 @@
 <p> 之后将release/feature合入develop分支，然后删除</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">git rebase develop</div><div class="line">git checkout develop</div><div class="line">git merge release/feature</div><div class="line">git push origin :release/feature</div></pre></td></tr></table></figure>
 <p> 7).发布完成后将release合入master分支，保证master为最新稳定版本（实际操作为发起merge request）</p>
-<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>本篇文章主要针对笔者工作中对于git工作流的一些理解和实践，目前我们团队也是严格按照这样的工作流来完成日常的开发工作，一个让团队成员认可并且有效的工作流才是最适合我们的工作流，任何规则不是为了限制我们思考，而是为了让工作更加高效有序，尽量减少人为的失误。git是一个博大精深的东西，笔者也是不断在实际应用中去理解它，任何一门技术的学习也是这样，就像程序员常用来装逼的一首诗：</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>本篇文章主要针对笔者工作中对于git工作流的一些理解和实践，目前我们团队也是严格按照这样的工作流来完成日常的开发工作，一个让团队成员认可并且有效的工作流才是最适合我们的工作流，任何规则不是为了限制我们思考，而是为了让工作更加高效有序，尽量减少人为的失误。git是一个博大精深的东西，笔者也是不断在实际应用中去理解它，任何一门技术的学习也是这样，就像程序员常用来装逼的一首诗：</p>
 <blockquote>
 <p>纸上得来终觉浅，绝知此事要躬行。</p>
 </blockquote>
