@@ -4,9 +4,9 @@
   <subtitle>一种愉悦的开发方式</subtitle>
   <link href="/atom.xml" rel="self"/>
   
-  <link href="https://devilwwj.github.io/"/>
-  <updated>2017-02-23T09:29:19.000Z</updated>
-  <id>https://devilwwj.github.io/</id>
+  <link href="https://buglydevteam.github.io/"/>
+  <updated>2017-02-23T09:36:57.000Z</updated>
+  <id>https://buglydevteam.github.io/</id>
   
   <author>
     <name>Bugly</name>
@@ -17,10 +17,10 @@
   
   <entry>
     <title>Git工作流的一些经验分享</title>
-    <link href="https://devilwwj.github.io/2017/02/23/share-the-experiences-of-git-workflow/"/>
-    <id>https://devilwwj.github.io/2017/02/23/share-the-experiences-of-git-workflow/</id>
+    <link href="https://buglydevteam.github.io/2017/02/23/share-the-experiences-of-git-workflow/"/>
+    <id>https://buglydevteam.github.io/2017/02/23/share-the-experiences-of-git-workflow/</id>
     <published>2017-02-23T09:10:21.000Z</published>
-    <updated>2017-02-23T09:29:19.000Z</updated>
+    <updated>2017-02-23T09:36:57.000Z</updated>
     
     <content type="html"><![CDATA[<p>笔者使用git有一段时间了，踩过不少坑，这里分享下我在git工作流方面的一些经验。</p>
 <h2 id="什么是Git工作流？"><a href="#什么是Git工作流？" class="headerlink" title="什么是Git工作流？"></a>什么是Git工作流？</h2><p>Git工作流你可以理解为工作中团队成员遵守的一种代码管理方案，在Git中有以下几种工作流方案作为方案指导：</p>
@@ -140,17 +140,17 @@
     
     </summary>
     
-      <category term="经验分享" scheme="https://devilwwj.github.io/categories/%E7%BB%8F%E9%AA%8C%E5%88%86%E4%BA%AB/"/>
+      <category term="经验分享" scheme="https://buglydevteam.github.io/categories/%E7%BB%8F%E9%AA%8C%E5%88%86%E4%BA%AB/"/>
     
     
-      <category term="Git" scheme="https://devilwwj.github.io/tags/Git/"/>
+      <category term="Git" scheme="https://buglydevteam.github.io/tags/Git/"/>
     
   </entry>
   
   <entry>
     <title>Bugly热更新SDK你需要知道的一些事</title>
-    <link href="https://devilwwj.github.io/2016/11/28/bugly-android-hotfix-you-should-know/"/>
-    <id>https://devilwwj.github.io/2016/11/28/bugly-android-hotfix-you-should-know/</id>
+    <link href="https://buglydevteam.github.io/2016/11/28/bugly-android-hotfix-you-should-know/"/>
+    <id>https://buglydevteam.github.io/2016/11/28/bugly-android-hotfix-you-should-know/</id>
     <published>2016-11-28T05:19:58.000Z</published>
     <updated>2016-12-03T11:50:01.000Z</updated>
     
@@ -278,14 +278,14 @@
     
     </summary>
     
-      <category term="Android" scheme="https://devilwwj.github.io/categories/Android/"/>
+      <category term="Android" scheme="https://buglydevteam.github.io/categories/Android/"/>
     
     
-      <category term="Bugly" scheme="https://devilwwj.github.io/tags/Bugly/"/>
+      <category term="Bugly" scheme="https://buglydevteam.github.io/tags/Bugly/"/>
     
-      <category term="热更新" scheme="https://devilwwj.github.io/tags/%E7%83%AD%E6%9B%B4%E6%96%B0/"/>
+      <category term="热更新" scheme="https://buglydevteam.github.io/tags/%E7%83%AD%E6%9B%B4%E6%96%B0/"/>
     
-      <category term="Tinker" scheme="https://devilwwj.github.io/tags/Tinker/"/>
+      <category term="Tinker" scheme="https://buglydevteam.github.io/tags/Tinker/"/>
     
   </entry>
   
