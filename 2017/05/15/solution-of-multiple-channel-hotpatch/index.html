@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  
+  <title>Bugly多渠道热更新解决方案 | Bugly技术团队博客 | 一种愉悦的开发方式</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  
+  <meta name="theme-color" content="#3F51B5">
+  
+  
+  <meta name="keywords" content="热更新,多渠道">
+  <meta name="description" content="Gradle使用productFlavors打渠道包的痛有很多同学可能会采用配置productFlavors来打渠道包，主要是它是原生支持，方便开发者输出不同定制版本的apk，举个例子：
+1234567891011121314151617181920android &amp;#123;    ...    defaultConfig &amp;#123;        minSdkVersion 8">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Bugly多渠道热更新解决方案">
+<meta property="og:url" content="https://buglydevteam.github.io/2017/05/15/solution-of-multiple-channel-hotpatch/index.html">
+<meta property="og:site_name" content="Bugly技术团队博客">
+<meta property="og:description" content="Gradle使用productFlavors打渠道包的痛有很多同学可能会采用配置productFlavors来打渠道包，主要是它是原生支持，方便开发者输出不同定制版本的apk，举个例子：
+1234567891011121314151617181920android &amp;#123;    ...    defaultConfig &amp;#123;        minSdkVersion 8">
+<meta property="og:image" content="https://buglydevteam.github.io/images/2017-05-15/Snip20170209_12.png">
+<meta property="og:image" content="https://buglydevteam.github.io/images/2017-05-15/Snip20170209_13.png">
+<meta property="og:image" content="https://buglydevteam.github.io/images/2017-05-15/Snip20170515_48.png">
+<meta property="og:image" content="https://buglydevteam.github.io/images/2017-05-15/Snip20170515_49.png">
+<meta property="og:image" content="https://buglydevteam.github.io/images/2017-05-15/Snip20170515_52.png">
+<meta property="og:image" content="https://buglydevteam.github.io/images/2017-05-15/Snip20170515_53.png">
+<meta property="og:updated_time" content="2017-05-15T09:59:13.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Bugly多渠道热更新解决方案">
+<meta name="twitter:description" content="Gradle使用productFlavors打渠道包的痛有很多同学可能会采用配置productFlavors来打渠道包，主要是它是原生支持，方便开发者输出不同定制版本的apk，举个例子：
+1234567891011121314151617181920android &amp;#123;    ...    defaultConfig &amp;#123;        minSdkVersion 8">
+<meta name="twitter:image" content="https://buglydevteam.github.io/images/2017-05-15/Snip20170209_12.png">
+  
+    <link rel="alternative" href="/atom.xml" title="Bugly技术团队博客" type="application/atom+xml">
+  
+  <link rel="shortcut icon" href="/img/default/bugly_sina.jpg">
+  <link rel="stylesheet" href="/css/style.css?v=1.3.2">
+</head>
+
+<body>
+  <div id="loading" class="active"></div>
+
+  <aside id="menu" class="hide" >
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-close"></i>
+    </a>
+    <div class="brand-wrap">
+      <div class="brand">
+        <a href="/" class="avatar waves-effect waves-circle waves-light">
+          <img src="/img/default/bugly_sina.jpg">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">Bugly</h5>
+          <a href="mailto:buglydevteam@yahoo.com" title="buglydevteam@yahoo.com" class="mail">buglydevteam@yahoo.com</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/"  >
+                <i class="icon icon-lg icon-home"></i>
+                主页
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives"  >
+                <i class="icon icon-lg icon-archives"></i>
+                Archives
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/tags"  >
+                <i class="icon icon-lg icon-tags"></i>
+                Tags
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/categories"  >
+                <i class="icon icon-lg icon-th-list"></i>
+                Categories
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://github.com/BuglyDevTeam" target="_blank" >
+                <i class="icon icon-lg icon-github"></i>
+                Github
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="http://weibo.com/tencentbugly?is_all=1#1480744696574" target="_blank" >
+                <i class="icon icon-lg icon-weibo"></i>
+                Weibo
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://bugly.qq.com/v2/index"  >
+                <i class="icon icon-lg icon-link"></i>
+                Bugly官网
+              </a>
+            </li>
+        
+      </ul>
+
+      <footer class="footer">
+  <p><a rel="license" target="_blank" href="http://creativecommons.org/licenses/by-nc-sa/4.0/"><img alt="Creative Commons License" style="border-width:0;vertical-align:middle;" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAFAAAAAPCAMAAABEF7i9AAAAllBMVEUAAAD///+rsapERER3d3eIiIjMzMzu7u4iIiKUmZO6v7rKzsoODg4RERFVVVUNDQ0NDg0PEA8zMzNLTEtbXltmZmZydnF9gn2AgICPkI+ZmZmqqqq7u7vFxsXIzMgNDQwZGRkgICAhISEkJSMnKCcuMC4xMzE5Ozk7PTtBQkFCQkJDQ0Nna2eGhoaHh4ezuLLGysbd3d1wVGpAAAAA4UlEQVR42q2T1xqCMAyFk7QsBQeKA9x7j/d/OSm22CpX0nzcpA1/T05aAOuBVkMAScQFHLnEwoCo2f1TnQIGoVMewjZEjVFN4GH1Ue1Cn2jWqwfsOOj6wDwGvotsl/c8lv7KIq1eLOsT0HMFHMIE/RZyHnlphryT9zyV+8WH5e8yQw3wnQvgAFxPTKUVi555SHR/lOfLMgVTeDlSfN+TaoUsiTyeIm+bCkHvCA2FUKG48LDtYBZBknsYP/G8NTw0gaaHyuQf4H5pecrB/FYCT2sL9zAfy1Xyjou6L8X2W7YcLyBZCRtnq/zfAAAAAElFTkSuQmCC" /></a></p>
+  <p>Bugly技术团队博客 &copy; 2016 - 2017</p>
+  <p>Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme
+  <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a></p>
+  <a href="/atom.xml" target="_blank" class="rss" title="rss"><i class="icon icon-2x icon-rss-square"></i></a>
+</footer>
+
+    </div>
+  </div>
+</aside>
+
+  <main id="main">
+    <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">Bugly多渠道热更新解决方案</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="输入感兴趣的关键字">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">Bugly多渠道热更新解决方案</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2017-05-15T09:47:04.000Z" itemprop="datePublished" class="page-time">
+  2017-05-15
+</time>
+
+
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/Android/">Android</a></li></ul>
+
+            
+        </h5>
+    </div>
+
+    
+
+</header>
+
+
+<div class="container body-wrap">
+    
+    <aside class="post-widget">
+        <nav class="post-toc-wrap" id="post-toc">
+            <h4>TOC</h4>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#Gradle使用productFlavors打渠道包的痛"><span class="post-toc-number">1.</span> <span class="post-toc-text">Gradle使用productFlavors打渠道包的痛</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#通过多渠道打包框架快速打多渠道包"><span class="post-toc-number">2.</span> <span class="post-toc-text">通过多渠道打包框架快速打多渠道包</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#如何获取渠道信息？"><span class="post-toc-number">3.</span> <span class="post-toc-text">如何获取渠道信息？</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#一个补丁修复所有渠道"><span class="post-toc-number">4.</span> <span class="post-toc-text">一个补丁修复所有渠道</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#总结"><span class="post-toc-number">5.</span> <span class="post-toc-text">总结</span></a></li></ol>
+        </nav>
+    </aside>
+    
+<article id="post-solution-of-multiple-channel-hotpatch"
+  class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">Bugly多渠道热更新解决方案</h1>
+        <div class="post-meta">
+            <time datetime="2017-05-15T09:47:04.000Z" itemprop="datePublished" class="post-time">
+  2017-05-15
+</time>
+
+            
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/Android/">Android</a></li></ul>
+
+
+
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <h2 id="Gradle使用productFlavors打渠道包的痛"><a href="#Gradle使用productFlavors打渠道包的痛" class="headerlink" title="Gradle使用productFlavors打渠道包的痛"></a>Gradle使用productFlavors打渠道包的痛</h2><p>有很多同学可能会采用配置productFlavors来打渠道包，主要是它是原生支持，方便开发者输出不同定制版本的apk，举个例子：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line">android &#123;</div><div class="line">    ...</div><div class="line"></div><div class="line">    defaultConfig &#123;</div><div class="line">        minSdkVersion 8</div><div class="line">        versionCode 10</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    productFlavors &#123;</div><div class="line">        flavor1 &#123;</div><div class="line">            packageName "com.example.flavor1"</div><div class="line">            versionCode 20</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        flavor2 &#123;</div><div class="line">            packageName "com.example.flavor2"</div><div class="line">            minSdkVersion 14</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>这样就可以输出两个定制的apk，不同包名，版本号也不同。 但是，如果用它来打渠道包是一个非常低效的做法，因为它每一次都会走编译流程，你想一下如果每打一个渠道包就要走一下编译流程，100个渠道包那得多慢。</p>
+<p>那如果你能忍受这么低效打渠道包的方式，那回到本文焦点，我先问个问题：“如果你要针对多渠道进行打补丁，你应该怎么做？”</p>
+<p>你可能会回答，那就针对不同的渠道包进行打补丁。没错，这个确实行得通，Bugly也是支持以这种方式进行打补丁，tinker-support插件会为不同渠道包插入不同的TINKER_ID, 唯一标识当前版本的渠道包，我们可以看下gradle打多渠道补丁的配置（详细参考<a href="https://bugly.qq.com/docs/user-guide/instruction-manual-android-hotfix-demo/?v=20170512172046#_3" title="多渠道热更新" target="_blank" rel="external">多渠道热更新</a>）：</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/images/2017-05-15/Snip20170209_12.png" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/images/2017-05-15/Snip20170209_13.png" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<p>上面的示例只是配置了两个渠道，如果你配置超过5个的话，那么就意味着你要一个补丁，一个补丁上传到Bugly补丁管理后台，况且我们也只允许同时下发5个版本的补丁。这里提一下为什么要上传所有渠道的补丁，因为通过productFlavors配置，会修改buildConfig类中的FLAVOR字段，这会导致生成的不同渠道包的dex是不一样的，所以只能针对具体渠道进行打补丁。这就非常的尴尬了，那怎么办呢？有没有版本通过一个补丁就能够修复所有渠道，答案是：<strong>有的，但前提是你要保证所有渠道包代码是一致的</strong>。</p>
+<h2 id="通过多渠道打包框架快速打多渠道包"><a href="#通过多渠道打包框架快速打多渠道包" class="headerlink" title="通过多渠道打包框架快速打多渠道包"></a>通过多渠道打包框架快速打多渠道包</h2><blockquote>
+<p>这里推荐使用<a href="https://github.com/Meituan-Dianping/walle" title="walle" target="_blank" rel="external">walle</a>来打多渠道包，新一代多渠道打包神器。</p>
+</blockquote>
+<p>通过walle或者类似的打包工具就不会改变dex的结构，只是修改<strong>APK Signature Block</strong>来添加自定义的渠道信息来生成渠道包。</p>
+<p>配置示例：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">// 多渠道使用walle示例（注：多渠道使用）</div><div class="line">apply from: &apos;multiple-channel.gradle&apos;</div></pre></td></tr></table></figure>
+<p>创建multiple-channel.gradle，内容如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">apply plugin: &apos;walle&apos;</div><div class="line"></div><div class="line">walle &#123;</div><div class="line">    // 指定渠道包的输出路径</div><div class="line">    apkOutputFolder = new File(&quot;$&#123;project.buildDir&#125;/outputs/channels&quot;);</div><div class="line">    // 定制渠道包的APK的文件名称</div><div class="line">    apkFileNameFormat = &apos;$&#123;appName&#125;-$&#123;packageName&#125;-$&#123;channel&#125;-$&#123;buildType&#125;-v$&#123;versionName&#125;-$&#123;versionCode&#125;-$&#123;buildTime&#125;.apk&apos;;</div><div class="line">    // 渠道配置文件</div><div class="line">    channelFile = new File(&quot;$&#123;project.getProjectDir()&#125;/channel&quot;)</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>创建channel配置:</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/images/2017-05-15/Snip20170515_48.png" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<p>命令行打多渠道包：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">./gradlew clean assembleReleaseChannels</div></pre></td></tr></table></figure>
+<p>输出结果如下：</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/images/2017-05-15/Snip20170515_49.png" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<p>ok，到此已经实现快速打多渠道包了。</p>
+<h2 id="如何获取渠道信息？"><a href="#如何获取渠道信息？" class="headerlink" title="如何获取渠道信息？"></a>如何获取渠道信息？</h2><p>如果你想获取渠道信息进行一些统计的分析，可以按照以下方式（具体参考<a href="https://github.com/Meituan-Dianping/walle" title="walle" target="_blank" rel="external">walle</a>)：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">dependencies &#123;</div><div class="line">    compile &apos;com.meituan.android.walle:library:1.1.3&apos;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>在代码中获取渠道信息：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">String channel = WalleChannelReader.getChannel(this.getApplicationContext());</div></pre></td></tr></table></figure>
+<p>如果你已经集成了<strong>Bugly的异常上报</strong>，你就可以通过以下方式来塞入渠道信息：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">String channel = WalleChannelReader.getChannel(getApplication());</div><div class="line">Bugly.setAppChannel(getApplication(), channel);</div><div class="line"> // 这里实现SDK初始化，appId替换成你的在Bugly平台申请的appId</div><div class="line">Bugly.init(getApplication(), &quot;YOUR_APP_ID&quot;, true);</div></pre></td></tr></table></figure>
+<p>这样我们就可以按渠道维度来统计你们app的Crash数据了。</p>
+<h2 id="一个补丁修复所有渠道"><a href="#一个补丁修复所有渠道" class="headerlink" title="一个补丁修复所有渠道"></a>一个补丁修复所有渠道</h2><p>重头戏，总是留在最后。 在打渠道包的过程，因为会走编译流程，热更新插件也会在bakApk生成对应的基线版本，这个跟普通打包就没有差别了：</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/images/2017-05-15/Snip20170515_52.png" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<p>只需要上传补丁包到补丁管理后台，然后下发即可。</p>
+<p>笔者随便挑了三个渠道分别安装到不同设备，均成功打上补丁：</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/images/2017-05-15/Snip20170515_53.png" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<p>ok，基本上我们的需求就已经实现啦，妈妈再也不用担心我加班加点上传补丁包了。</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>Bugly目前同时支持两种方式进行渠道包的热更新：</p>
+<ul>
+<li>productFlavors方式打多渠道包</li>
+<li>快速打渠道包工具（Gradle）</li>
+</ul>
+<p>笔者是推荐使用第二种方式，不仅能够快速打包，也能够轻松实现一个补丁修复所有渠道。</p>
+<p>如果大家对以上有什么疑问的话，可以在下面留言，我们共同探讨下。</p>
+
+        </div>
+
+        <blockquote class="post-copyright">
+    <div class="content">
+        转载请注明出处：<a href="/2017/05/15/solution-of-multiple-channel-hotpatch/" target="_blank" rel="external">https://buglydevteam.github.io/2017/05/15/solution-of-multiple-channel-hotpatch/</a>
+    </div>
+    <footer>
+        <a href="https://buglydevteam.github.io">
+            <img src="/img/default/bugly_sina.jpg" alt="Bugly">
+            Bugly
+        </a>
+    </footer>
+</blockquote>
+        
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;" class="page-reward-btn waves-effect waves-circle waves-light">赏</a>
+</div>
+
+
+
+        <div class="post-footer">
+            
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/多渠道/">多渠道</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/热更新/">热更新</a></li></ul>
+
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <div class="tit">分享到：</div>
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://buglydevteam.github.io/2017/05/15/solution-of-multiple-channel-hotpatch/&title=《Bugly多渠道热更新解决方案》 — Bugly技术团队博客&pic=https://buglydevteam.github.io/img/default/bugly_sina.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://buglydevteam.github.io/2017/05/15/solution-of-multiple-channel-hotpatch/&title=《Bugly多渠道热更新解决方案》 — Bugly技术团队博客&source=Bugly技术团队博客，分享技术，交流思想。" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://buglydevteam.github.io/2017/05/15/solution-of-multiple-channel-hotpatch/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《Bugly多渠道热更新解决方案》 — Bugly技术团队博客&url=https://buglydevteam.github.io/2017/05/15/solution-of-multiple-channel-hotpatch/&via=https://buglydevteam.github.io" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://buglydevteam.github.io/2017/05/15/solution-of-multiple-channel-hotpatch/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between flex-row-reverse">
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/2017/04/30/talk-about-the-anxious-of-programmer/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">谈谈程序员的焦虑感</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+<div class="duoshuo" id="comments">
+	<div class="ds-thread" data-thread-key="solution-of-multiple-channel-hotpatch" data-title="Bugly多渠道热更新解决方案" data-url="https://buglydevteam.github.io/2017/05/15/solution-of-multiple-channel-hotpatch/"></div>
+</div>
+<script src="/js/embed.min.js?v=1.3.2"></script>
+<script src="//cdn.bootcss.com/marked/0.3.6/marked.min.js" async="async"></script>
+<script>
+var duoshuoQuery = {short_name:'buglydevteam', theme: 'none'}
+</script>
+
+
+
+
+
+</article>
+
+<div id="reward" class="page-modal reward-lay">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <h3 class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        你的支持是Bugly持续输出的动力
+        <i class="icon icon-quote-right"></i>
+    </h3>
+    <ul class="reward-items">
+        
+        <li>
+            <img src="/img/default/wechat.png" title="微信打赏二维码" alt="微信打赏二维码">
+            <p>微信</p>
+        </li>
+        
+
+        
+        <li>
+            <img src="/img/default/alipay.png" title="支付宝打赏二维码" alt="支付宝打赏二维码">
+            <p>支付宝</p>
+        </li>
+        
+    </ul>
+</div>
+
+
+
+</div>
+
+  </main>
+  <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: true }</script>
+
+
+
+<div class="global-share" id="globalShare">
+    <div class="tit">分享到：</div>
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://buglydevteam.github.io/2017/05/15/solution-of-multiple-channel-hotpatch/&title=《Bugly多渠道热更新解决方案》 — Bugly技术团队博客&pic=https://buglydevteam.github.io/img/default/bugly_sina.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://buglydevteam.github.io/2017/05/15/solution-of-multiple-channel-hotpatch/&title=《Bugly多渠道热更新解决方案》 — Bugly技术团队博客&source=Bugly技术团队博客，分享技术，交流思想。" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://buglydevteam.github.io/2017/05/15/solution-of-multiple-channel-hotpatch/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《Bugly多渠道热更新解决方案》 — Bugly技术团队博客&url=https://buglydevteam.github.io/2017/05/15/solution-of-multiple-channel-hotpatch/&via=https://buglydevteam.github.io" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://buglydevteam.github.io/2017/05/15/solution-of-multiple-channel-hotpatch/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAN4AAADeCAAAAAB3DOFrAAACtElEQVR42u3a0U4jMQwFUP7/p8szggnXdsx2pTNPVSkzOamUpNf++Iiv17fr/Mmn/z2//3q4nu587cLDw8MbD/384Pxu34eV43sT8cN98PDw8NZ45yU+oSbvJ/jzffIx4+Hh4b0zL1qg4yEmh3U8PDy8/5GXHG2rB/R8M8DDw8N7B14vQk22hOr98yP15awFDw8PL+ZNjrP/6vVKfQ8PDw9vXFWfLPd7QUZhtHh4eHgLvHzBzcFJi0B+ZE9Ck1+KcHh4eHhrvOqAkpapvKEqb9gqx8F4eHh4V3l5mb/aFJVsLb2/FpoJ8PDw8NZ41QC3+vjecXzyFDw8PLxt3jlUrYYCSSRxi/TLePDw8PAWeJMCVTLQ6uAmW0i0++Hh4eFd4vXKV9Vf/ZPIONkGytsDHh4e3piXYJL384N7NYxIpr7wTeLh4eENeL2BVhfxXqNVNdTAw8PD2+b1Cle9IVZT1mos8sOo8PDw8BZ4kzggj2I3pizfzPDw8PA2eJMQoVdCGyUlcXSCh4eHt8HLYdWh9yZiHkZ8uSceHh7eMq9a1upNRD4p+aH88Z54eHh4y7xk0L0GgnzDyLeKKHPAw8PDW+CNMozW9lAtgC3GGXh4eHiXePkB91YrVbIJ9V7j4eHhbfOqC3Q1PsgLbNWnn/8LDw8Pb4N3jg/mpa98QZ9EEoWmKzw8PLxLvLutV70wIjmUn5/yuOPh4eHhrfGqxf5e8WkyZc0qHx4eHt4l3qt4nSelF1uM2qrOB3c8PDy8Bd58Ka8u8RuFrl6TFh4eHt68XSBZlOefnxy1mxsDHh4e3hovX6yTsCA/jpcLWtUgGA8PD+8NeJOYoLoN9IpkhW8ADw8P78951RbSXnSb3xkPDw/vL3m9glbvk+XGqVagjIeHh7fHm//gr8YNVcboSI2Hh4d3k/cJc54DJ2jfDxgAAAAASUVORK5CYII=" alt="微信分享二维码">
+</div>
+
+
+
+
+  <script src="//cdn.bootcss.com/node-waves/0.7.4/waves.min.js"></script>
+<script src="/js/main.min.js?v=1.3.2"></script>
+
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="/js/search.min.js?v=1.3.2"></script>
+
+
+
+
+
+
+
+
+
+</body>
+</html>

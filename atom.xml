@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://buglydevteam.github.io/"/>
-  <updated>2017-04-30T07:12:16.000Z</updated>
+  <updated>2017-05-15T09:59:13.000Z</updated>
   <id>https://buglydevteam.github.io/</id>
   
   <author>
@@ -16,11 +16,114 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
+    <title>Bugly多渠道热更新解决方案</title>
+    <link href="https://buglydevteam.github.io/2017/05/15/solution-of-multiple-channel-hotpatch/"/>
+    <id>https://buglydevteam.github.io/2017/05/15/solution-of-multiple-channel-hotpatch/</id>
+    <published>2017-05-15T09:47:04.000Z</published>
+    <updated>2017-05-15T09:59:13.000Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="Gradle使用productFlavors打渠道包的痛"><a href="#Gradle使用productFlavors打渠道包的痛" class="headerlink" title="Gradle使用productFlavors打渠道包的痛"></a>Gradle使用productFlavors打渠道包的痛</h2><p>有很多同学可能会采用配置productFlavors来打渠道包，主要是它是原生支持，方便开发者输出不同定制版本的apk，举个例子：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line">android &#123;</div><div class="line">    ...</div><div class="line"></div><div class="line">    defaultConfig &#123;</div><div class="line">        minSdkVersion 8</div><div class="line">        versionCode 10</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    productFlavors &#123;</div><div class="line">        flavor1 &#123;</div><div class="line">            packageName "com.example.flavor1"</div><div class="line">            versionCode 20</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        flavor2 &#123;</div><div class="line">            packageName "com.example.flavor2"</div><div class="line">            minSdkVersion 14</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>这样就可以输出两个定制的apk，不同包名，版本号也不同。 但是，如果用它来打渠道包是一个非常低效的做法，因为它每一次都会走编译流程，你想一下如果每打一个渠道包就要走一下编译流程，100个渠道包那得多慢。</p>
+<p>那如果你能忍受这么低效打渠道包的方式，那回到本文焦点，我先问个问题：“如果你要针对多渠道进行打补丁，你应该怎么做？”</p>
+<p>你可能会回答，那就针对不同的渠道包进行打补丁。没错，这个确实行得通，Bugly也是支持以这种方式进行打补丁，tinker-support插件会为不同渠道包插入不同的TINKER_ID, 唯一标识当前版本的渠道包，我们可以看下gradle打多渠道补丁的配置（详细参考<a href="https://bugly.qq.com/docs/user-guide/instruction-manual-android-hotfix-demo/?v=20170512172046#_3" title="多渠道热更新" target="_blank" rel="external">多渠道热更新</a>）：</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/images/2017-05-15/Snip20170209_12.png" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/images/2017-05-15/Snip20170209_13.png" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<p>上面的示例只是配置了两个渠道，如果你配置超过5个的话，那么就意味着你要一个补丁，一个补丁上传到Bugly补丁管理后台，况且我们也只允许同时下发5个版本的补丁。这里提一下为什么要上传所有渠道的补丁，因为通过productFlavors配置，会修改buildConfig类中的FLAVOR字段，这会导致生成的不同渠道包的dex是不一样的，所以只能针对具体渠道进行打补丁。这就非常的尴尬了，那怎么办呢？有没有版本通过一个补丁就能够修复所有渠道，答案是：<strong>有的，但前提是你要保证所有渠道包代码是一致的</strong>。</p>
+<h2 id="通过多渠道打包框架快速打多渠道包"><a href="#通过多渠道打包框架快速打多渠道包" class="headerlink" title="通过多渠道打包框架快速打多渠道包"></a>通过多渠道打包框架快速打多渠道包</h2><blockquote>
+<p>这里推荐使用<a href="https://github.com/Meituan-Dianping/walle" title="walle" target="_blank" rel="external">walle</a>来打多渠道包，新一代多渠道打包神器。</p>
+</blockquote>
+<p>通过walle或者类似的打包工具就不会改变dex的结构，只是修改<strong>APK Signature Block</strong>来添加自定义的渠道信息来生成渠道包。</p>
+<p>配置示例：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">// 多渠道使用walle示例（注：多渠道使用）</div><div class="line">apply from: &apos;multiple-channel.gradle&apos;</div></pre></td></tr></table></figure>
+<p>创建multiple-channel.gradle，内容如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">apply plugin: &apos;walle&apos;</div><div class="line"></div><div class="line">walle &#123;</div><div class="line">    // 指定渠道包的输出路径</div><div class="line">    apkOutputFolder = new File(&quot;$&#123;project.buildDir&#125;/outputs/channels&quot;);</div><div class="line">    // 定制渠道包的APK的文件名称</div><div class="line">    apkFileNameFormat = &apos;$&#123;appName&#125;-$&#123;packageName&#125;-$&#123;channel&#125;-$&#123;buildType&#125;-v$&#123;versionName&#125;-$&#123;versionCode&#125;-$&#123;buildTime&#125;.apk&apos;;</div><div class="line">    // 渠道配置文件</div><div class="line">    channelFile = new File(&quot;$&#123;project.getProjectDir()&#125;/channel&quot;)</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>创建channel配置:</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/images/2017-05-15/Snip20170515_48.png" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<p>命令行打多渠道包：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">./gradlew clean assembleReleaseChannels</div></pre></td></tr></table></figure>
+<p>输出结果如下：</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/images/2017-05-15/Snip20170515_49.png" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<p>ok，到此已经实现快速打多渠道包了。</p>
+<h2 id="如何获取渠道信息？"><a href="#如何获取渠道信息？" class="headerlink" title="如何获取渠道信息？"></a>如何获取渠道信息？</h2><p>如果你想获取渠道信息进行一些统计的分析，可以按照以下方式（具体参考<a href="https://github.com/Meituan-Dianping/walle" title="walle" target="_blank" rel="external">walle</a>)：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">dependencies &#123;</div><div class="line">    compile &apos;com.meituan.android.walle:library:1.1.3&apos;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>在代码中获取渠道信息：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">String channel = WalleChannelReader.getChannel(this.getApplicationContext());</div></pre></td></tr></table></figure>
+<p>如果你已经集成了<strong>Bugly的异常上报</strong>，你就可以通过以下方式来塞入渠道信息：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">String channel = WalleChannelReader.getChannel(getApplication());</div><div class="line">Bugly.setAppChannel(getApplication(), channel);</div><div class="line"> // 这里实现SDK初始化，appId替换成你的在Bugly平台申请的appId</div><div class="line">Bugly.init(getApplication(), &quot;YOUR_APP_ID&quot;, true);</div></pre></td></tr></table></figure>
+<p>这样我们就可以按渠道维度来统计你们app的Crash数据了。</p>
+<h2 id="一个补丁修复所有渠道"><a href="#一个补丁修复所有渠道" class="headerlink" title="一个补丁修复所有渠道"></a>一个补丁修复所有渠道</h2><p>重头戏，总是留在最后。 在打渠道包的过程，因为会走编译流程，热更新插件也会在bakApk生成对应的基线版本，这个跟普通打包就没有差别了：</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/images/2017-05-15/Snip20170515_52.png" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<p>只需要上传补丁包到补丁管理后台，然后下发即可。</p>
+<p>笔者随便挑了三个渠道分别安装到不同设备，均成功打上补丁：</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/images/2017-05-15/Snip20170515_53.png" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<p>ok，基本上我们的需求就已经实现啦，妈妈再也不用担心我加班加点上传补丁包了。</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>Bugly目前同时支持两种方式进行渠道包的热更新：</p>
+<ul>
+<li>productFlavors方式打多渠道包</li>
+<li>快速打渠道包工具（Gradle）</li>
+</ul>
+<p>笔者是推荐使用第二种方式，不仅能够快速打包，也能够轻松实现一个补丁修复所有渠道。</p>
+<p>如果大家对以上有什么疑问的话，可以在下面留言，我们共同探讨下。</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;h2 id=&quot;Gradle使用productFlavors打渠道包的痛&quot;&gt;&lt;a href=&quot;#Gradle使用productFlavors打渠道包的痛&quot; class=&quot;headerlink&quot; title=&quot;Gradle使用productFlavors打渠道包的痛&quot;&gt;&lt;/a&gt;Gr
+    
+    </summary>
+    
+      <category term="Android" scheme="https://buglydevteam.github.io/categories/Android/"/>
+    
+    
+      <category term="热更新" scheme="https://buglydevteam.github.io/tags/%E7%83%AD%E6%9B%B4%E6%96%B0/"/>
+    
+      <category term="多渠道" scheme="https://buglydevteam.github.io/tags/%E5%A4%9A%E6%B8%A0%E9%81%93/"/>
+    
+  </entry>
+  
+  <entry>
     <title>谈谈程序员的焦虑感</title>
     <link href="https://buglydevteam.github.io/2017/04/30/talk-about-the-anxious-of-programmer/"/>
     <id>https://buglydevteam.github.io/2017/04/30/talk-about-the-anxious-of-programmer/</id>
     <published>2017-04-30T07:11:41.000Z</published>
-    <updated>2017-04-30T07:12:16.000Z</updated>
+    <updated>2017-05-15T09:48:49.000Z</updated>
     
     <content type="html"><![CDATA[<p>这篇文章继续不谈技术，我们来谈谈关于程序员的焦虑感，写这篇文章源自有位同学问了我一个问题：</p>
 <blockquote>
@@ -76,6 +179,8 @@
 &lt;p&gt;我接触Android 应用层也快3,4年了，说实话，公司一直让做app 层开发，工作之余，学完ReactNative 和Weex，简单的做了D
     
     </summary>
+    
+      <category term="技术分享" scheme="https://buglydevteam.github.io/categories/%E6%8A%80%E6%9C%AF%E5%88%86%E4%BA%AB/"/>
     
     
       <category term="技术感悟" scheme="https://buglydevteam.github.io/tags/%E6%8A%80%E6%9C%AF%E6%84%9F%E6%82%9F/"/>
@@ -401,9 +506,9 @@
       <category term="Android" scheme="https://buglydevteam.github.io/categories/Android/"/>
     
     
-      <category term="Bugly" scheme="https://buglydevteam.github.io/tags/Bugly/"/>
-    
       <category term="热更新" scheme="https://buglydevteam.github.io/tags/%E7%83%AD%E6%9B%B4%E6%96%B0/"/>
+    
+      <category term="Bugly" scheme="https://buglydevteam.github.io/tags/Bugly/"/>
     
       <category term="Tinker" scheme="https://buglydevteam.github.io/tags/Tinker/"/>
     
